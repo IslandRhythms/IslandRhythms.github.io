@@ -1,0 +1,68 @@
+html{
+    background-image: url("Beach.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+    width: auto;
+    margin:0;
+    padding:0;
+    background-attachment: fixed;
+    line-height: 1.5;
+   
+}
+
+
+body{
+background-color:transparent;
+}
+
+h1{
+    color: yellow;
+}
+
+h2{
+color: yellow;
+}
+
+h3{
+    margin-right:1100px;
+    color:white;
+   
+}
+
+h4{
+color: yellow;
+}
+
+
+.info{
+    color: darkcyan;
+}
+
+.location{
+    color: black;
+    font-weight: normal;
+    
+
+}
+
+.Experience{
+    color:black;
+   font-weight: normal;
+}
+
+#picture{
+    float: right;
+    width: 20%;
+    height:20%;
+    
+}
+a:link{
+    color: lightblue;
+}
+
+
+li{
+    color: black;
+}
