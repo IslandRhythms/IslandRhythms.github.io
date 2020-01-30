@@ -26,18 +26,17 @@ color: yellow;
 }
 
 h3{
-    margin-right:1100px;
     color:white;
    
 }
 
 h4{
-color: yellow;
+color: red;
 }
 
 
 .info{
-    color: darkcyan;
+    color: cyan;
 }
 
 .location{
@@ -59,10 +58,16 @@ color: yellow;
     
 }
 a:link{
-    color: lightblue;
+    color: darkcyan;
 }
 
 
 li{
     color: black;
 }
+
+.Projects{
+    font-weight: normal;
+    color: black;
+}
+
