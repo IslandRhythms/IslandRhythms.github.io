@@ -30,3 +30,5 @@ View this jekyll theme in action [here](https://jeromelachaud.com/freelancer-the
 
 ---------
 For more details, read the [documentation](http://jekyllrb.com/)
+
+https://stackoverflow.com/questions/61389936/kernel-require-rb-cannot-load-such-file-jekyll
