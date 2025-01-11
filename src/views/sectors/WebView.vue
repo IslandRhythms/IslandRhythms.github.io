@@ -1,3 +1,24 @@
+<script>
+export default {
+  data() {
+    return {
+      example: {
+        title: '',
+        description: '',
+        link: '',
+      },
+      web: [
+        {
+          title: '',
+          description: '',
+          link: '',
+        },
+      ],
+    }
+  },
+}
+</script>
+
 <template>
   <div>
     <h2>Web Development</h2>
