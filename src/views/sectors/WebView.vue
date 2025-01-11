@@ -38,7 +38,7 @@
           </button>
         </h2>
         <div
-          id="collapseTwo"
+          id="collapseTwo-web"
           class="accordion-collapse collapse"
           aria-labelledby="headingTwo-web"
           data-bs-parent="#web"
