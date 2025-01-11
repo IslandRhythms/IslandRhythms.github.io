@@ -11,12 +11,37 @@ import { RouterLink, RouterView } from 'vue-router'
     </nav>
   </header>
 
-  <RouterView class="content" />
+  <div class="main">
+    <div class="profile">
+      <img src="/public/ProfilePic.jpg" />
+    </div>
+    <div class="content">
+      <RouterView />
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.profile {
+  display: flex;
+  justify-content: center;
+  padding: 4rem;
+  width: 100%;
+  margin: auto;
+}
+
 .content {
-  margin-left: 10%;
+  padding: 4rem;
+  width: 100%;
+  margin: auto;
+}
+.navigation {
+  padding: 2rem;
 }
 header {
   line-height: 0.5;
@@ -67,7 +92,7 @@ nav a:first-of-type {
   header .wrapper {
     display: flex;
     place-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
   }
 
