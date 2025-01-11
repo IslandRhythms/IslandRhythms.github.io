@@ -6,6 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header class="navigation">
     <nav class="wrapper">
       <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/contact">Contact</RouterLink>
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/portfolio">Portfolio</RouterLink>
     </nav>
@@ -13,7 +14,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
   <div class="main">
     <div class="profile">
-      <img src="/public/ProfilePic.jpg" />
+      <img class="pic" src="/ProfilePic.jpg" />
     </div>
     <div class="content">
       <RouterView />
@@ -24,85 +25,48 @@ import { RouterLink, RouterView } from 'vue-router'
 <style scoped>
 .main {
   display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
   justify-content: center;
+}
+
+.pic {
+  width: 25%;
+  height: 50%;
 }
 
 .profile {
   display: flex;
   justify-content: center;
-  padding: 4rem;
+  padding: 2rem; /* Reduced padding for mobile */
   width: 100%;
   margin: auto;
 }
 
 .content {
-  padding: 4rem;
-  width: 100%;
+  padding: 2rem; /* Reduced padding for mobile */
+  width: 90%; /* Use a percentage for width */
   margin: auto;
 }
-.navigation {
-  padding: 2rem;
-}
-header {
-  line-height: 0.5;
-  max-height: 100vh;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.navigation {
+  padding: 1rem; /* Reduced padding for mobile */
 }
 
 nav {
   width: 100%;
-  font-size: 12px;
+  font-size: 14px; /* Slightly larger font for better readability */
   text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  margin-top: 1rem; /* Reduced margin for mobile */
 }
 
 nav a {
   display: inline-block;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem; /* Adjusted padding for better touch targets */
   border-left: 1px solid var(--color-border);
 }
 
 nav a:first-of-type {
   border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
 }
 </style>
