@@ -24,7 +24,7 @@ export default {
         },
         {
           title: 'My Website',
-          description: `My personal website that I use to show off my projects and history`,
+          description: `My personal website that I use to show off my projects and history. Technologies Used: Vue, Vue router, Vite`,
           link: 'https://github.com/IslandRhythms/IslandRhythms.github.io',
           location: 'Github Repo',
           home: 'https://islandrhythms.github.io/',

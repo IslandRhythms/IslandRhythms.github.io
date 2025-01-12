@@ -23,6 +23,10 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
+.logo {
+  width: 5%;
+}
+
 .main {
   display: flex;
   flex-direction: column; /* Stack items vertically */
