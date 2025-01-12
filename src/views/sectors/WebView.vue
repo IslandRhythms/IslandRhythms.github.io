@@ -9,9 +9,25 @@ export default {
       },
       web: [
         {
-          title: '',
-          description: '',
-          link: '',
+          title: 'MyKeySig',
+          description: `Using the spotify api, this project would allow a user to enter a song, playlist, or album and it would return the most recurring key.
+          As of late 2024, spotify revoked access from developers to their part of the api that allowed this application to work and so it is no longer functional.`,
+          link: 'https://github.com/IslandRhythms/MyKeySig',
+          location: 'Github Repo',
+        },
+        {
+          title: 'Udemy Website',
+          description: `An ecommerce website I made while following a udemy course. Deployed to heroku but since heroku decided to revoke free access to their services,
+          the website can longer be viewed online.`,
+          link: 'https://github.com/IslandRhythms/UdemyWebsite',
+          location: 'Github Repo',
+        },
+        {
+          title: 'My Website',
+          description: `My personal website that I use to show off my projects and history`,
+          link: 'https://github.com/IslandRhythms/IslandRhythms.github.io',
+          location: 'Github Repo',
+          home: 'https://islandrhythms.github.io/',
         },
       ],
     }
@@ -23,48 +39,32 @@ export default {
   <div>
     <h2>Web Development</h2>
     <div class="accordion" id="web">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne-web">
+      <div class="accordion-item" v-for="project in web" :key="project.title">
+        <h2 class="accordion-header" :id="project.title">
           <button
             class="accordion-button collapsed"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#collapseOne-web"
+            :data-bs-target="`#${project.link}`"
             aria-expanded="false"
-            aria-controls="collapseOne-web"
+            :aria-controls="project.link"
           >
-            Collapsible Item #1
+            {{ project.title }}
           </button>
         </h2>
         <div
-          id="collapseOne-web"
+          :id="project.link"
           class="accordion-collapse collapse"
-          aria-labelledby="headingOne-web"
+          :aria-labelledby="project.title"
           data-bs-parent="#web"
         >
-          <div class="accordion-body">This is the first item's accordion body.</div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo-web">
-          <button
-            class="accordion-button collapsed"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#collapseTwo-web"
-            aria-expanded="false"
-            aria-controls="collapseTwo"
-          >
-            Collapsible Item #2
-          </button>
-        </h2>
-        <div
-          id="collapseTwo-web"
-          class="accordion-collapse collapse"
-          aria-labelledby="headingTwo-web"
-          data-bs-parent="#web"
-        >
-          <div class="accordion-body">This is the second item's accordion body.</div>
+          <div class="accordion-body">
+            {{ project.description }} <br />
+            <a :href="project.link">{{ project.location }}</a> <br />
+            <div v-if="project.home">
+              <a :href="project.home">Online View</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
