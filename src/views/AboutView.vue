@@ -7,6 +7,7 @@ export default {
         timeFrame: '',
         imgLink: '',
         origin: '',
+        skills: [],
       },
       education: [
         {
@@ -14,6 +15,7 @@ export default {
           timeFrame: 'Aug 2016 - May 2020',
           imgLink: '/University-Of-Miami-Symbol.png',
           origin: 'University of Miami',
+          skills: ['Java', 'C', 'C#', 'Unity', 'Python', 'SQL', 'Linux command line'],
         },
       ],
       experience: [
@@ -22,6 +24,29 @@ export default {
           timeFrame: 'Jan 2021',
           imgLink: '/MeanIT.png',
           origin: 'MeanIt Software',
+          skills: [
+            'Javascript',
+            'Vue.js',
+            'HTML',
+            'CSS',
+            'Bootstrap',
+            'TailwindCSS',
+            'Express.js',
+            'Node.js',
+            'NPM',
+            'MongoDB',
+            'Mongoose.js',
+            'Mocha.js',
+            'Cloudinary',
+            'Stripe.js',
+            'Twilio',
+            'Persona',
+            'Netlify',
+            'Webpack',
+            'Postman',
+            'Git',
+            'GitBash',
+          ],
         },
       ],
     }
@@ -41,6 +66,7 @@ export default {
           <p class="card-text">
             <small class="text-muted">{{ ed.timeFrame }}</small>
           </p>
+          <p class="card-text"><strong>Skills:</strong> {{ ed.skills.join(', ') }}</p>
         </div>
       </div>
     </div>
@@ -54,6 +80,7 @@ export default {
           <p class="card-text">
             <small class="text-muted">{{ ex.timeFrame }}</small>
           </p>
+          <p class="card-text"><strong>Skills:</strong> {{ ex.skills.join(', ') }}</p>
         </div>
       </div>
     </div>

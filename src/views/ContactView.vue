@@ -3,7 +3,7 @@
     Have questions, ideas, or just want to say hi? Fill out the form below, and I’ll get back to you
     as soon as possible. I’m looking forward to hearing from you!
   </div>
-  <form action="https://formspree.io/f/xannvqvp" method="POST" class="container mt-4">
+  <form action="https://formspree.io/f/xannvqvp" method="POST" class="container mt-4 w-50">
     <div class="mb-3">
       <label for="email" class="form-label">Your email:</label>
       <input type="email" name="email" id="email" class="form-control" required />
