@@ -10,7 +10,7 @@ export default {
       },
       software: [
         {
-          title: 'BeatBot',
+          title: 'Beat-Bot',
           description: `A discord bot I made for my discord server, as well as some friends servers, that has db integration with mongodb.
           Has games, utility, learning, music player, and a plethora of other categories that users can interact with. Currently hosted on a raspberry pi.
           Technologies used: Nodejs, Mongodb`,

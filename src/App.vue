@@ -3,74 +3,56 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="navigation">
-    <nav class="wrapper">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/contact">Contact</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/portfolio">Portfolio</RouterLink>
+  <header class="navigation bg-light py-2 shadow-sm">
+    <nav class="container d-flex align-items-center justify-content-between">
+      <!-- Logo -->
+      <div class="logo-container">
+        <RouterLink to="/">
+          <img class="logo img-fluid" src="/Logo.png" alt="Logo" />
+        </RouterLink>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="nav-links">
+        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/">Home</RouterLink>
+        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/contact"
+          >Contact</RouterLink
+        >
+        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/about">About</RouterLink>
+        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/portfolio"
+          >Portfolio</RouterLink
+        >
+      </div>
     </nav>
   </header>
 
-  <div class="main">
-    <div class="profile">
-      <img class="pic" src="/ProfilePic.jpg" />
+  <main class="main container my-5">
+    <div class="profile text-center">
+      <img class="pic rounded-circle img-fluid" src="/ProfilePic.jpg" alt="Profile Picture" />
     </div>
-    <div class="content">
+    <div class="content mt-4">
       <RouterView />
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>
-.logo {
-  width: 5%;
+.logo-container {
+  max-width: 120px; /* Control logo size */
 }
 
-.main {
-  display: flex;
-  flex-direction: column; /* Stack items vertically */
-  align-items: center; /* Center items horizontally */
-  justify-content: center;
+.logo {
+  width: 100%;
 }
 
 .pic {
-  width: 25%;
-  height: 50%;
+  max-width: 150px; /* Adjust profile picture size */
+  height: auto;
+  border: 2px solid #ddd;
+  padding: 5px;
 }
 
-.profile {
-  display: flex;
-  justify-content: center;
-  padding: 2rem; /* Reduced padding for mobile */
-  width: 100%;
-  margin: auto;
-}
-
-.content {
-  padding: 2rem; /* Reduced padding for mobile */
-  width: 90%; /* Use a percentage for width */
-  margin: auto;
-}
-
-.navigation {
-  padding: 1rem; /* Reduced padding for mobile */
-}
-
-nav {
-  width: 100%;
-  font-size: 14px; /* Slightly larger font for better readability */
-  text-align: center;
-  margin-top: 1rem; /* Reduced margin for mobile */
-}
-
-nav a {
-  display: inline-block;
-  padding: 0.5rem 1rem; /* Adjusted padding for better touch targets */
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
+.nav-links .nav-link:hover {
+  text-decoration: underline;
 }
 </style>

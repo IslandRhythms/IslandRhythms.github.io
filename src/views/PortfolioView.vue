@@ -5,7 +5,6 @@ import WebView from './sectors/WebView.vue'
 </script>
 
 <template>
-  <h1>Portfolio</h1>
   <WebView />
   <GameView />
   <SoftwareView />
