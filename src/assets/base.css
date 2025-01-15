@@ -34,6 +34,12 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --color-primary: #2c3e50;
+  --color-secondary: #34495e;
+  --color-neutral: #ffffff;
+  --color-accent: #e67e22;
+  --color-highlight: #d35400;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -47,6 +53,12 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+
+    --color-primary: #2c3e50;
+    --color-secondary: #34495e;
+    --color-neutral: #ffffff;
+    --color-accent: #e67e22;
+    --color-highlight: #d35400;
   }
 }
 
@@ -83,4 +95,36 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  --bs-primary: #2980b9; /* Deep Blue */
+  --bs-secondary: #7f8c8d; /* Medium Gray */
+  /*--bs-secondary: #5d6d7e; /* Slate Blue, an alternative */
+  --bs-success: #27ae60; /* Green */
+  --bs-warning: #e67e22; /* Bright Orange */
+  --bs-light: #aab7c4; /* Soft Gray-Blue */
+  --bs-dark: #2c3e50; /* Dark Navy */
+  --bs-body-color: #ffffff; /* White */
+  --bs-body-bg: #2c3e50; /* Background */
+}
+
+/* Additional customizations */
+.navbar-dark {
+  background-color: var(--bs-dark) !important;
+}
+
+.card {
+  background-color: var(--bs-secondary);
+  color: var(--bs-body-color);
+}
+
+.btn-primary {
+  background-color: var(--bs-warning);
+  border-color: var(--bs-warning);
+}
+
+.btn-primary:hover {
+  background-color: #d35400; /* Burnt Orange */
+  border-color: #d35400;
 }

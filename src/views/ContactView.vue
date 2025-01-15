@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center">
+  <div class="d-flex container justify-content-center align-items-center my-4 text-center w-50">
     Have questions, ideas, or just want to say hi? Fill out the form below, and I’ll get back to you
     as soon as possible. I’m looking forward to hearing from you!
   </div>
@@ -12,6 +12,8 @@
       <label for="message" class="form-label">Your message:</label>
       <textarea name="message" id="message" class="form-control" rows="4" required></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Send</button>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Send</button>
+    </div>
   </form>
 </template>

@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="navigation bg-light py-2 shadow-sm">
+  <header class="py-2 shadow-sm navbar navbar-dark">
     <nav class="container d-flex align-items-center justify-content-between">
       <!-- Logo -->
       <div class="logo-container">
@@ -14,14 +14,10 @@ import { RouterLink, RouterView } from 'vue-router'
 
       <!-- Navigation Links -->
       <div class="nav-links">
-        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/">Home</RouterLink>
-        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/contact"
-          >Contact</RouterLink
-        >
-        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/about">About</RouterLink>
-        <RouterLink class="nav-link d-inline-block mx-2 text-dark" to="/portfolio"
-          >Portfolio</RouterLink
-        >
+        <RouterLink class="nav-link d-inline-block mx-2" to="/">Home</RouterLink>
+        <RouterLink class="nav-link d-inline-block mx-2" to="/contact">Contact</RouterLink>
+        <RouterLink class="nav-link d-inline-block mx-2" to="/about">About</RouterLink>
+        <RouterLink class="nav-link d-inline-block mx-2" to="/portfolio">Portfolio</RouterLink>
       </div>
     </nav>
   </header>
@@ -30,7 +26,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="profile text-center">
       <img class="pic rounded-circle img-fluid" src="/ProfilePic.jpg" alt="Profile Picture" />
     </div>
-    <div class="content mt-4">
+    <div class="content mt-4 p-5">
       <RouterView />
     </div>
   </main>
