@@ -1,151 +1,43 @@
-<!DOCTYPE html>
-  
-<html>
-<head>
-    <title>
-    Welcome!
- </title>
- </head>
- <body>
-    <div id = "picture">
-        <img src = "Profile Pic.JPG" width = 300 height = 300 alt = "photo">
-        <p style = "font-size: 2em;">Welcome to my Website!</p>
-    </div>
-   
-        
-    <h1>
-            Daniel Christian Diaz
-        </h1>
-        <h4> Contact Information <span class = info> <br />
-           <a href="mailto:dcd57@miami.edu">Email: dcd57@miami.edu</a> 
-        </span>
-        </h4>
-        <link rel="stylesheet" type="text/css" href = "Website-style.css"/>
-    
-    
-<h2>
-    Education
-</h2>
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/ico-file.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      .footer {
+        width: 100%; /* Full width */
+        text-align: center; /* Center the text */
+        margin: auto; /* Center the footer itself */
+        padding: 1rem; /* Add some padding for spacing */
+        position: relative; /* Ensure it stays at the bottom */
+      }
 
-<h3>
-University of Miami, 
-<span class = "location">Coral Gables, Florida
-<br /> Bachelors of Science in Computer Science, May 2020
-    <br />With a Math and Music Minor
-</span>
-</h3>
-
-
-<h2>
-    Experience
-</h2>
-<h3>
-    Saint Mark Music Mini-Camp Head Counselor, <span class = Experience>
-        Saint Mark Catholic Church, Aug 2018
- <br /> Spearheaded a music mini-camp to help bring in the younger generation into the parish
-        to encourage 
-        <br />participation as well as create connections for the campers. Planned logistics
-        <br />for food, location, scheduling, activities, etc and also taught campers to play instruments.
-    </span>
-
-</h3>
-
-<h2>Projects</h2>
-
-<h3>Ecommerce Website</h3>
-<h4>Javascript</h4>
-<span class = Projects>
-    Website created following a Udemy course. Can purchase items with credit card or paypal.
-    <br /> The backend is also hosted on Heroku. 
-    <br /> Login for an Admin user is admin@gmail.com and password is admin1. 
-    <br /> Login for a user is usertest@gmail.com and password is usertest1.
-    <br />Technologies used: MongoDB, Express.js, React.js, Node.js, Bootstrap 4, CSS.
-</span>
-
-<br />
-<span class = "info">
-    <a href="https://ecomm-web-dev-frontend.herokuapp.com">Website</a> 
-<a href="https://github.com/IslandRhythms/HerokuFrontend">Frontend Repository</a> 
-<a href="https://github.com/IslandRhythms/HerokuBackend">Backend Repository</a> 
-</span>
-
-<h3>Discord Bot</h3>
-<h4>Javascript</h4>
-<span class = Projects>
-    Created a Discord bot for use in my personal discord server which provides small games
-    <br />like guess the number as well as games, movies, and shows recommended by me and
-    <br />advice, pickup lines, and burns to give to yourself or friends.
-</span>
-
-<br />
-<span class = "info">
-<a href="https://github.com/IslandRhythms/Beat-Bot">Bot Repository</a> 
-</span>
-
-
-<h3>MyKeySig</h3>
-<h4>Javascript</h4>
-<span class = "Projects">
-
-Developed a web application that finds the key of a playlist, album, or track given its id
-</br> so long as it is on spotify. Technologies used: Ajax, Express.js, Node.js, HTML5, CSS, JavaScript
-<br /> Bootstrap4, SpotifyAPI
-</span>
-<br />
-<span class = "info">
-    <a href = "https://github.com/IslandRhythms/MyKeySig">Application Repository</a>
-    <br />
-    <a href = "https://mykeysig.glitch.me">Application Home</a>
-</span>
-
-<h3>The Grim Shredder</h3>
-<h4>C#</h4>
-<p>
-<span class = "Projects">
-    2D Game Created using the Unity Engine with all scripts written in C#.
-    </span>
-</p>
-<iframe src="https://itch.io/embed/637364" height="167" width="552" frameborder="0"><a href="https://theislandrhythm.itch.io/the-grim-shredder">The Grim Shredder by TheIslandRhythm</a></iframe>
-</br>
-
-<span class = "info">
-    <a href = "https://github.com/IslandRhythms/CSC329">Game Script Repository</a>
-</span>
-
-<h3>Unit Converter</h3>
-<h4> Java and Java Swing</h4>
-<p>
-<span class = "Projects">
-    A simple Java program using Java Swing to implement the GUI written using Eclipse.
-    <br />Converts metric to metric, imperial to imperial, and metric to imperial and vice versa.
-    <br />No internet required to use.
-</span>
-</p>
-<span class = "info">
-    <a href = "https://github.com/IslandRhythms/UnitConverter">Unit Converter Repository</a>
-</span>
-
-
-<h2>Technical Skills</h2>
-
-<ul>
-    <li>HTML5,CSS, Bootstrap 4,Node.js, Express.js, React.js, MongoDB, AJAX, and JavaScript</li>
-    <li>Proficient in Java, Java Swing, C, C#, R, SQL,Python 3</li>
-    <li>Speak Conversational Spanish</li>
-    <li>MatLab, Unity2D</li>
-    <li>Eclipse, Visual Studio Code</li>
-    <li>GitHub, Git, Git Bash, Linux</li>
-</ul>
-
-<h2>Personal Interests</h2>
-
-<ul>
-    <li>Music Composition</li>
-    <li>3D Printing</li>
-    <li>Game Development</li>
-    <li>Playing Drums and Guitar</li>
-</ul>
-
-
-</body>
+      body {
+        overflow-y: scroll;
+      }
+    </style>
+    <title>Welcome!</title>
+  </head>
+  <body id="doc">
+    <div id="app"></div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+  <footer class="footer">Last Updated January 19, 2025</footer>
 </html>
