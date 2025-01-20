@@ -26,7 +26,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="profile text-center">
       <img
         class="pic rounded-circle img-fluid"
-        src="/WebsiteProfilePic.jpg"
+        src="/WebsiteProfilePic.png"
         alt="Profile Picture"
       />
     </div>
