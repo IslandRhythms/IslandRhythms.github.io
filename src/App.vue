@@ -24,7 +24,11 @@ import { RouterLink, RouterView } from 'vue-router'
 
   <main class="main container my-5">
     <div class="profile text-center">
-      <img class="pic rounded-circle img-fluid" src="/ProfilePic.jpg" alt="Profile Picture" />
+      <img
+        class="pic rounded-circle img-fluid"
+        src="/WebsiteProfilePic.jpg"
+        alt="Profile Picture"
+      />
     </div>
     <div class="content mt-4 p-5">
       <RouterView />
