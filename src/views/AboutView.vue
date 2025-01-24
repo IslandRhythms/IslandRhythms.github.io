@@ -56,31 +56,38 @@ export default {
 
 <template>
   <div class="about">
-    <h1>Education</h1>
-    <div class="card" v-for="ed in education" :key="ed.imgLink">
-      <div class="card-content">
-        <img :src="ed.imgLink" class="card-img-left" />
-        <div class="card-body">
-          <h5 class="card-title">{{ ed.title }}</h5>
-          <p class="card-text">{{ ed.origin }}</p>
-          <p class="card-text">
-            <small class="text-muted">{{ ed.timeFrame }}</small>
-          </p>
-          <p class="card-text"><strong>Skills:</strong> {{ ed.skills.join(', ') }}</p>
+    <div class="text-center about-intro">
+      On this page, I'll share the background and experiences that have shaped my career as a web developer.
+      From my education to my professional journey,
+      this is where you can learn more about the path I've taken to build the skills and expertise I bring to my work today.
+    </div>
+    <div class="resume">
+      <h1>Education</h1>
+      <div class="card" v-for="ed in education" :key="ed.imgLink">
+        <div class="card-content">
+          <img :src="ed.imgLink" class="card-img-left" />
+          <div class="card-body">
+            <h5 class="card-title">{{ ed.title }}</h5>
+            <p class="card-text">{{ ed.origin }}</p>
+            <p class="card-text">
+              <small class="text-muted">{{ ed.timeFrame }}</small>
+            </p>
+            <p class="card-text"><strong>Skills:</strong> {{ ed.skills.join(', ') }}</p>
+          </div>
         </div>
       </div>
-    </div>
-    <h1>Experience</h1>
-    <div class="card">
-      <div class="card-content" v-for="ex in experience" :key="ex.imgLink">
-        <img src="/MeanIT.png" class="card-img-left" />
-        <div class="card-body">
-          <h5 class="card-title">{{ ex.title }}</h5>
-          <p class="card-text">{{ ex.origin }}</p>
-          <p class="card-text">
-            <small class="text-muted">{{ ex.timeFrame }}</small>
-          </p>
-          <p class="card-text"><strong>Skills:</strong> {{ ex.skills.join(', ') }}</p>
+      <h1>Experience</h1>
+      <div class="card">
+        <div class="card-content" v-for="ex in experience" :key="ex.imgLink">
+          <img src="/MeanIT.png" class="card-img-left" />
+          <div class="card-body">
+            <h5 class="card-title">{{ ex.title }}</h5>
+            <p class="card-text">{{ ex.origin }}</p>
+            <p class="card-text">
+              <small class="text-muted">{{ ex.timeFrame }}</small>
+            </p>
+            <p class="card-text"><strong>Skills:</strong> {{ ex.skills.join(', ') }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -88,6 +95,17 @@ export default {
 </template>
 
 <style scoped>
+
+.resume {
+  max-width: 600px;
+  margin: auto;
+}
+
+.about-intro {
+  max-width: 500px;
+  margin: auto;
+}
+
 .card-content {
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Center items vertically */

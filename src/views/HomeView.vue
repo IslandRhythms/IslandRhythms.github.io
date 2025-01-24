@@ -4,7 +4,7 @@
   <main>
     <div class="home">
       <div class="description">
-        <div>
+        <div class="text-center">
           Hi, I’m Daniel Christian Diaz—a passionate web developer with 4 years of experience
           building engaging and user-friendly digital experiences. My work combines creativity,
           problem-solving, and technical expertise to bring ideas to life, whether it’s crafting
