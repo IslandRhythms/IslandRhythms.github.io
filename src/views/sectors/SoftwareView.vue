@@ -19,7 +19,7 @@ export default {
         },
         {
           title: 'Unit Converter',
-          description: `A simple java program uisng java swing that converts metric to metric, imperial to imperail, metric to imperial, and vice versa.
+          description: `A simple java program uisng java swing that converts metric to metric, imperial to imperial, metric to imperial, and vice versa.
           3D printing requires converting inches to millimeters a lot so making an offline program to do that is quite helpful.`,
           link: 'https://github.com/IslandRhythms/UnitConverter',
           location: 'Github Repo',
@@ -31,8 +31,8 @@ export default {
 </script>
 
 <template>
-  <div>
-    <h2>Software / App Development</h2>
+  <div class="sector-view">
+    <h2 class="text-center">Software / App Development</h2>
     <div class="accordion" id="software">
       <div class="accordion-item" v-for="project in software" :key="project.title">
         <h2 class="accordion-header" :id="project.title">
@@ -62,3 +62,21 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.sector-view {
+  max-width: 600px;
+  min-width: 320px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .sector-view {
+    min-width: 280px;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+}
+</style>
