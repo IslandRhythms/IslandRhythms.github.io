@@ -23,6 +23,18 @@
 <style scoped>
 .contact {
   max-width: 500px;
+  min-width: 320px;
   margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .contact {
+    min-width: 280px;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
 }
 </style>

@@ -23,9 +23,23 @@
   display: flex;
   flex-grow: 1;
   justify-content: space-evenly;
+  max-width: 600px;
+  min-width: 320px;
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .description {
   width: 75%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .home {
+    min-width: 280px;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
 }
 </style>

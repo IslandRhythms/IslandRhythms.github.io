@@ -28,8 +28,8 @@ export default {
 </script>
 
 <template>
-  <div>
-    <h2>Game Development</h2>
+  <div class="sector-view">
+    <h2 class="text-center">Game Development</h2>
     <div class="accordion" id="game">
       <div class="accordion-item" v-for="project in game" :key="project.title">
         <h2 class="accordion-header" :id="project.title">
@@ -67,4 +67,20 @@ export default {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sector-view {
+  max-width: 600px;
+  min-width: 320px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .sector-view {
+    min-width: 280px;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+}
+</style>

@@ -19,13 +19,39 @@ import WebView from './sectors/WebView.vue'
 
 
 <style>
+.portfolio {
+  max-width: 600px;
+  min-width: 320px;
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .portfolio-intro {
   max-width: 500px;
+  min-width: 320px;
   margin: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sectors {
  max-width: 600px;
+ min-width: 320px;
  margin: auto;
+ margin-top: 2em;
+ width: 100%;
+ box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .portfolio,
+  .portfolio-intro,
+  .sectors {
+    min-width: 280px;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
 }
 </style>
