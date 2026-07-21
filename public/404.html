@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting…</title>
+    <meta name="robots" content="noindex" />
+    <!--
+      GitHub Pages serves this file for any path it can't find. Because the site
+      is a single-page app, every route other than "/" lands here first. Stash
+      where the visitor actually wanted to go, then bounce to the app root —
+      index.html reads it back and hands the path to Vue Router.
+    -->
+    <script>
+      sessionStorage.setItem(
+        'spa-redirect',
+        location.pathname + location.search + location.hash,
+      )
+      location.replace('/')
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="/">the homepage</a>…</p>
+  </body>
+</html>
