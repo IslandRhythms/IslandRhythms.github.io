@@ -243,6 +243,18 @@ export const projects = [
     status: 'live',
   },
   {
+    slug: 'dividex',
+    title: 'Dividex',
+    category: 'desktop',
+    year: '2026',
+    blurb: 'A C# and Blazor precursor implementation of Fundlog',
+    description:
+      'The first pass at the budgeting problem that later became Fundlog. Built with .NET MAUI and Blazor, it divided monthly income across customizable categories, tracked fixed and variable costs, and managed receipts with side-by-side price comparison. Shipping it taught me what the product needed to feel like before I rewrote it in Electron and Vue.',
+    tech: ['C#', 'Blazor', 'HTML'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/dividex', kind: 'code' }],
+    status: 'archived'
+  },
+  {
     slug: 'udemy-ecommerce',
     title: 'E-Commerce Storefront',
     category: 'web',
