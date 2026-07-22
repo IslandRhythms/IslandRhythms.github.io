@@ -4,13 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-    <title>Daniel Christian Diaz, Software Engineer</title>
-    <meta
-      name="description"
-      content="Portfolio of Daniel Christian Diaz, a software engineer in Miami building fast, resilient web software. Open-source maintenance on Mongoose.js, full-stack applications, and technical writing."
-    />
-    <meta name="author" content="Daniel Christian Diaz" />
-    <link rel="canonical" href="https://islandrhythms.github.io/" />
+    <!--
+      %SITE_*% placeholders are substituted at build time by the `html-identity`
+      plugin in vite.config.js, which reads src/content/site.js. Edit the copy
+      there, not here — an unknown token fails the build rather than shipping.
+    -->
+    <title>%SITE_NAME%, %SITE_ROLE%</title>
+    <meta name="description" content="%SITE_DESCRIPTION%" />
+    <meta name="author" content="%SITE_NAME%" />
+    <link rel="canonical" href="%SITE_URL%/" />
     <meta name="theme-color" content="#04070d" />
 
     <!-- Icons -->
@@ -20,24 +22,18 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Daniel Christian Diaz" />
-    <meta property="og:title" content="Daniel Christian Diaz, Software Engineer" />
-    <meta
-      property="og:description"
-      content="Full-stack engineer building fast, resilient web software. Open source, Vue, Node and a lot of debugging."
-    />
-    <meta property="og:url" content="https://islandrhythms.github.io/" />
-    <meta property="og:image" content="https://islandrhythms.github.io/WebsiteProfilePic.png" />
-    <meta property="og:image:alt" content="Portrait of Daniel Christian Diaz" />
+    <meta property="og:site_name" content="%SITE_NAME%" />
+    <meta property="og:title" content="%SITE_NAME%, %SITE_ROLE%" />
+    <meta property="og:description" content="%SITE_SHARE_DESCRIPTION%" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%SITE_URL%/WebsiteProfilePic.png" />
+    <meta property="og:image:alt" content="Portrait of %SITE_NAME%" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Daniel Christian Diaz, Software Engineer" />
-    <meta
-      name="twitter:description"
-      content="Full-stack engineer building fast, resilient web software."
-    />
-    <meta name="twitter:image" content="https://islandrhythms.github.io/WebsiteProfilePic.png" />
+    <meta name="twitter:title" content="%SITE_NAME%, %SITE_ROLE%" />
+    <meta name="twitter:description" content="%SITE_SHARE_DESCRIPTION_SHORT%" />
+    <meta name="twitter:image" content="%SITE_URL%/WebsiteProfilePic.png" />
 
     <!--
       Theme bootstrap. This runs before the first paint so a returning visitor
@@ -80,10 +76,10 @@
       {
         "@context": "https://schema.org",
         "@type": "Person",
-        "name": "Daniel Christian Diaz",
-        "url": "https://islandrhythms.github.io/",
-        "image": "https://islandrhythms.github.io/WebsiteProfilePic.png",
-        "jobTitle": "Software Engineer",
+        "name": "%SITE_NAME%",
+        "url": "%SITE_URL%/",
+        "image": "%SITE_URL%/WebsiteProfilePic.png",
+        "jobTitle": "%SITE_ROLE%",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Miami",
@@ -94,15 +90,7 @@
           "@type": "CollegeOrUniversity",
           "name": "University of Miami"
         },
-        "knowsAbout": [
-          "JavaScript",
-          "Vue.js",
-          "Node.js",
-          "MongoDB",
-          "Mongoose.js",
-          "WebGL",
-          "Open Source"
-        ],
+        "knowsAbout": ["JavaScript", "Vue.js", "Node.js", "MongoDB", "Mongoose.js", "Open Source"],
         "sameAs": [
           "https://github.com/IslandRhythms",
           "https://theislandrhythm.itch.io",
@@ -116,7 +104,7 @@
     <div id="app"></div>
     <noscript>
       <div style="padding: 4rem 1.5rem; text-align: center; font-family: system-ui, sans-serif">
-        <h1>Daniel Christian Diaz, Software Engineer</h1>
+        <h1>%SITE_NAME%, %SITE_ROLE%</h1>
         <p>
           This portfolio needs JavaScript to run. In the meantime you can browse my work on
           <a href="https://github.com/IslandRhythms">GitHub</a>.

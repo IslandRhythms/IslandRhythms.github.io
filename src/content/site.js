@@ -36,6 +36,27 @@ export const site = {
   ogImage: '/WebsiteProfilePic.png',
 
   /**
+   * Copy for the static parts of index.html — the title, meta description,
+   * OG/Twitter tags, JSON-LD and the <noscript> fallback.
+   *
+   * These get substituted into index.html at BUILD time by the `html-identity`
+   * plugin in vite.config.js, not at runtime by Vue: crawlers and social
+   * scrapers read that markup without executing any JavaScript, and the
+   * <noscript> block by definition only renders when JS is off. Editing them
+   * here is enough — index.html holds placeholders, not literals.
+   */
+  seo: {
+    /** <meta name="description">. Aim for 150-160 characters. */
+    description:
+      'Portfolio of Daniel Christian Diaz, a full-stack software engineer in Miami building fast, resilient web software. Open-source maintenance on Mongoose.js, full-stack applications, and technical writing.',
+    /** og:description — what Slack, iMessage and LinkedIn show. */
+    shareDescription:
+      'Full-stack engineer building fast, resilient web software. Open source, Vue, Node and a lot of debugging.',
+    /** twitter:description, which gets less room. */
+    shareDescriptionShort: 'Full-stack engineer building fast, resilient web software.',
+  },
+
+  /**
    * The big paragraph under your name in the hero. `highlight` must appear
    * verbatim inside `text`; that phrase gets the aqua to gold gradient.
    */

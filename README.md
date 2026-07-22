@@ -1,7 +1,7 @@
 # islandrhythms.github.io
 
-Personal portfolio for **Daniel Christian Diaz** — a single-page Vue 3 site with a
-hand-written WebGL hero shader, a command palette, dual themes and a printable résumé.
+Personal portfolio for **Daniel Christian Diaz** — a Vue 3 site with a Canvas 2D hero
+visual, a command palette, dual themes and a printable résumé.
 
 **Live:** https://islandrhythms.github.io/
 
@@ -14,10 +14,14 @@ component to update the site.**
 
 | File | What it drives |
 | --- | --- |
-| [`site.js`](src/content/site.js) | Name, role, bio, location, email, hero stats, social links, section list |
-| [`projects.js`](src/content/projects.js) | Every card in the Work section |
+| [`site.js`](src/content/site.js) | Name, role, bio, location, hero stats, social links, section list |
+| [`projects.js`](src/content/projects.js) | Categories, the Work section and the Demos section |
 | [`experience.js`](src/content/experience.js) | The About timeline and the résumé |
 | [`skills.js`](src/content/skills.js) | The Toolkit grid and the résumé's skills block |
+
+> There is deliberately **no email address or phone number** anywhere in `src/`. All contact
+> routes through the Formspree form in the Contact section, which keeps an address out of the
+> markup and away from scrapers. Please keep it that way.
 
 ### Adding a project
 
@@ -28,7 +32,7 @@ Open [`src/content/projects.js`](src/content/projects.js) and append an object t
 {
   slug: 'my-project',            // unique, URL-safe — becomes the #project-my-project anchor
   title: 'My Project',
-  category: 'web',               // 'web' | 'software' | 'games' — see `categories`
+  category: 'web',               // must match an id in `categories` (see below)
   year: '2026',
   blurb: 'One punchy sentence for the card face.',
   description: 'The fuller story, revealed when someone hits "Details".',
@@ -36,9 +40,11 @@ Open [`src/content/projects.js`](src/content/projects.js) and append an object t
   links: [
     { label: 'Source', href: 'https://github.com/…', kind: 'code' },   // 'code' | 'live' | 'store'
   ],
-  status: 'live',                // 'live' | 'ongoing' | 'archived' — optional status pill
-  featured: true,                // optional: card spans two grid columns
-  embed: 'https://itch.io/embed/637364',  // optional iframe inside the expanded card
+  status: 'live',                // 'live' | 'archived' — optional status pill
+  featured: true,                // optional: promotes it into the Work showcase
+  demo: false,                   // optional: moves it out of Work and into Demos
+  resume: true,                  // optional: set false to keep it off the résumé
+  embed: 'https://itch.io/embed/637364',  // optional iframe, rendered in the Demos section
 }
 ```
 
@@ -47,10 +53,32 @@ That single object automatically produces:
 - a card in the Work grid, in whichever filter tab matches its `category`
 - an updated count on the filter buttons
 - a searchable entry in the ⌘K command palette
-- an entry on `/resume`, if it's `featured` or `live`
+- an entry on `/resume`, if it's `featured` or `live` and not `resume: false`
 
-Adding a **new category** means adding one entry to the `categories` array in the same
-file — filters with no projects behind them hide themselves automatically.
+### The three flags
+
+**`featured`** promotes a project into the showcase at the top of Work — **one per
+category**, taken in the order `categories` declares them. Flagging a second project in the
+same category doesn't create another slot; the extra falls back to the grid below.
+
+**`demo`** moves a project out of Work entirely and into the Demos section, so nothing
+appears on the page twice. A demo renders its `embed` inline when it has one and a "try it"
+launch card when it doesn't.
+
+**`resume`** set to `false` keeps a project out of Selected Projects on `/resume` — used
+where the work is already described under a role, so the page doesn't say it twice.
+
+### Adding a category
+
+Add one entry to the `categories` array in the same file:
+
+```js
+{ id: 'mobile', label: 'Mobile', accent: '#f7c977' }
+```
+
+`accent` is required for the showcase — it drives that card's top edge, watermark numeral,
+glow and hover colour, and its matching skin in the Demos section. Filters with no projects
+behind them hide themselves automatically.
 
 ---
 
@@ -90,33 +118,52 @@ There is no `npm run deploy` any more — pushing is the deploy.
 ```
 src/
 ├─ content/       # ← all site copy and data (edit these)
-├─ sections/      # the four landing-page sections
-├─ components/    # reusable UI: shader, header, palette, cards, icons
+├─ sections/      # the five landing-page sections
+├─ components/    # reusable UI: hero canvas, header, palette, cards, frames, icons
 ├─ composables/   # theme, scroll-spy, command palette state
-├─ lib/           # the synth engine behind the hero visual
+├─ lib/           # the wavetable behind the hero visual
 ├─ directives/    # v-reveal scroll animation
 ├─ views/         # routed pages: landing, résumé, 404
 └─ assets/main.css  # design tokens + base + component primitives
 ```
 
+Three routes, not one page: `/` (landing), `/resume` (printable) and a catch-all 404.
+
 ### Notable pieces
 
-**`components/WaveField.vue`** + **`lib/waveform.js`** — the hero visual. Three stacked
-waveform lines that breathe: amplitude swells and recedes on an eight second cycle, staggered
-so the layers drift gently through one another, while the wave shape itself morphs over tens
-of seconds. No beat, no spectrum, nothing that competes with the type. On screens under
-1080px it drops to 42% opacity, and under `prefers-reduced-motion` it renders one static frame
-with no animation loop at all.
+**`components/WaveField.vue`** + **`lib/waveform.js`** — the hero visual, drawn to a
+**Canvas 2D** context. No WebGL, no shader, no animation library. Forty-eight phase-shifted
+copies of one wave are stacked in perspective and composited additively, so overlapping
+strokes accumulate into a surface rather than reading as separate lines. The whole field
+breathes on an eleven-second cycle while the wave shape itself morphs over tens of seconds.
+
+The trick that makes it cheap is the wavetable: the wave is periodic in x, so one pass of
+512 samples per frame feeds all 48 lines instead of 11,520 evaluations of a four-term sum.
+It pauses via `IntersectionObserver` when scrolled past and on `visibilitychange`, caps DPR
+at 2, and renders one static frame with no animation loop under `prefers-reduced-motion`.
+Below 1080px it drops to 50% opacity so it never competes with the type; with no 2D context
+at all it falls back to a CSS gradient.
 
 Tuning lives in [`src/lib/waveform.js`](src/lib/waveform.js): `BREATH_PERIOD` sets the pace,
-`CYCLES` how many waves span the field, `LAYERS` how many lines, and `HARMONICS` the character
-of the wave.
+`CYCLES` how many waves span the field, `LINES` how dense the surface is, and `HARMONICS`
+the character of the wave.
+
+**`components/FeaturedProject.vue`** — the Work showcase card. Every card is identical in
+size and treatment; what separates them is colour, taken from the category's `accent`. Text
+uses of that colour are mixed 50% toward the ink in light mode, which is the most hue that
+still clears WCAG AA at 11px.
+
+**`components/DemoFrame.vue`** — category-specific chrome for the Demos section: an arcade
+cabinet for games, a browser window for web, a handset for mobile, an app window for
+desktop, a terminal for software, a repo header for open source. Unknown categories fall
+through to a plain frame, so adding a category never breaks the section.
 
 **`assets/main.css`** — the design system. Raw palette ramps and motion easings live in
 Tailwind's `@theme`; semantic tokens (`--bg`, `--accent`, `--line`, …) are redefined per
 theme under `[data-theme]` and re-exposed to Tailwind via `@theme inline`. Themes switch by
 swapping one attribute on `<html>`, set by an inline script in `index.html` before first
-paint so there's no flash on load.
+paint so there's no flash on load. Tailwind is used **only** as this token layer — every
+component is hand-written scoped CSS.
 
 **`directives/reveal.js`** — `v-reveal` scroll animations sharing one IntersectionObserver
 across the whole page. Supports variants and stagger:
@@ -129,16 +176,21 @@ needs updating separately.
 ### Accessibility & performance
 
 - Every animation respects `prefers-reduced-motion`.
-- Skip link, focus-visible rings, labelled controls, and a `<noscript>` fallback with
-  contact details.
-- ~57 KB gzipped JS total; fonts are self-hosted variable subsets, no CDN or third-party
-  requests at runtime.
+- Skip link, focus-visible rings, labelled controls, and a `<noscript>` fallback linking to
+  GitHub.
+- ~59 KB gzipped JS on first load (21 KB app + 38 KB vendor), plus ~14 KB gzipped CSS. The
+  résumé and 404 routes are lazy chunks and don't load with the landing page.
+- Fonts are self-hosted variable subsets — no CDN. The only third-party request at runtime
+  is the itch.io demo embed, which is `loading="lazy"` and never fetched unless the Demos
+  section is reached.
 - `404.html` restores deep links (`/resume`) that GitHub Pages would otherwise drop.
 
 ---
 
 ## Housekeeping
 
+- The `<noscript>` block in `index.html` hard-codes the role string ("Software Engineer")
+  rather than reading `site.role`, so it needs updating by hand if the title changes.
 - The social share image is currently the profile photo. To use a proper card, drop a
   1200×630 PNG in `public/` and point `ogImage` in `site.js` plus the `og:image` tags in
   `index.html` at it.

@@ -20,7 +20,7 @@ export const skillGroups = [
       'CSS3',
       'Tailwind CSS',
       'Bootstrap',
-      'WebGL / GLSL',
+      'Canvas 2D',
       'Vite',
     ],
   },
