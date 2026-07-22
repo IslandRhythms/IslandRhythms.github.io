@@ -2,7 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [master]
+    # `master` catches feature work; `production` catches the release PR, which
+    # would otherwise merge and deploy without ever being checked.
+    branches: [master, production]
   workflow_dispatch:
 
 jobs:

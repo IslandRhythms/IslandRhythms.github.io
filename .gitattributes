@@ -1,0 +1,19 @@
+# Line endings.
+#
+# Everything here is already stored as LF. Without this file that only stays
+# true because this machine happens to have core.autocrlf=true — a per-machine
+# git setting that doesn't travel with a clone. Declaring it here means the next
+# machine, and CI, get the same result regardless of local config.
+* text=auto eol=lf
+
+# Binaries: never normalise, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# SVG is markup, so it normalises like any other text file.
+*.svg text eol=lf

@@ -1,198 +1,176 @@
 # islandrhythms.github.io
 
-Personal portfolio for **Daniel Christian Diaz** — a Vue 3 site with a Canvas 2D hero
-visual, a command palette, dual themes and a printable résumé.
+My portfolio. Vue 3 + Vite, deployed to GitHub Pages. Live at
+https://islandrhythms.github.io/
 
-**Live:** https://islandrhythms.github.io/
+Notes to myself for when I come back to this after six months and remember none of it.
 
 ---
 
-## Adding content
+## Deploying — read this first
 
-All content lives in [`src/content/`](src/content/). **You should never need to touch a
-component to update the site.**
+**`production` is what's live. `master` is where work lands. Nothing deploys from
+`master`.**
 
-| File | What it drives |
-| --- | --- |
-| [`site.js`](src/content/site.js) | Name, role, bio, location, hero stats, social links, section list |
-| [`projects.js`](src/content/projects.js) | Categories, the Work section and the Demos section |
-| [`experience.js`](src/content/experience.js) | The About timeline and the résumé |
-| [`skills.js`](src/content/skills.js) | The Toolkit grid and the résumé's skills block |
-
-> There is deliberately **no email address or phone number** anywhere in `src/`. All contact
-> routes through the Formspree form in the Contact section, which keeps an address out of the
-> markup and away from scrapers. Please keep it that way.
-
-### Adding a project
-
-Open [`src/content/projects.js`](src/content/projects.js) and append an object to the
-`projects` array:
-
-```js
-{
-  slug: 'my-project',            // unique, URL-safe — becomes the #project-my-project anchor
-  title: 'My Project',
-  category: 'web',               // must match an id in `categories` (see below)
-  year: '2026',
-  blurb: 'One punchy sentence for the card face.',
-  description: 'The fuller story, revealed when someone hits "Details".',
-  tech: ['Vue', 'Node.js'],      // rendered as chips
-  links: [
-    { label: 'Source', href: 'https://github.com/…', kind: 'code' },   // 'code' | 'live' | 'store'
-  ],
-  status: 'live',                // 'live' | 'archived' — optional status pill
-  featured: true,                // optional: promotes it into the Work showcase
-  demo: false,                   // optional: moves it out of Work and into Demos
-  resume: true,                  // optional: set false to keep it off the résumé
-  embed: 'https://itch.io/embed/637364',  // optional iframe, rendered in the Demos section
-}
+```bash
+git checkout production
+git merge --ff-only master
+git push origin production     # <- this is the deploy
+git checkout master
 ```
 
-That single object automatically produces:
+Two things I will forget:
 
-- a card in the Work grid, in whichever filter tab matches its `category`
-- an updated count on the filter buttons
-- a searchable entry in the ⌘K command palette
-- an entry on `/resume`, if it's `featured` or `live` and not `resume: false`
+1. **GitHub runs the workflow file from the branch being pushed**, not from the default
+   branch. So `deploy.yml` has to be identical on `master` and `production`. If I ever
+   change the trigger again and only merge it one way, I'll end up with two branches both
+   publishing, or neither.
+2. **Settings → Pages → Source must be "GitHub Actions"**, not a branch. The old
+   `gh-pages` branch is still sitting on the remote doing nothing. If the site ever goes
+   stale for no reason, check this first.
 
-### The three flags
+Both workflows run the same gate — `lint:check`, `format:check`, `build`. `ci.yml` fires on
+PRs into `master` **and** `production`, so the release PR gets checked too.
 
-**`featured`** promotes a project into the showcase at the top of Work — **one per
-category**, taken in the order `categories` declares them. Flagging a second project in the
-same category doesn't create another slot; the extra falls back to the grid below.
+Re-deploy without a commit: Actions tab → Deploy to GitHub Pages → Run workflow
+(`workflow_dispatch` is enabled).
 
-**`demo`** moves a project out of Work entirely and into the Demos section, so nothing
-appears on the page twice. A demo renders its `embed` inline when it has one and a "try it"
-launch card when it doesn't.
+---
 
-**`resume`** set to `false` keeps a project out of Selected Projects on `/resume` — used
-where the work is already described under a role, so the page doesn't say it twice.
+## Where to edit things
 
-### Adding a category
+Everything I'd actually want to change lives in [`src/content/`](src/content/). **I should
+never need to open a component to update the site.**
 
-Add one entry to the `categories` array in the same file:
+| File | Drives |
+| --- | --- |
+| [`site.js`](src/content/site.js) | Name, role, bio, stats, socials, section list, SEO copy |
+| [`projects.js`](src/content/projects.js) | Categories, the Work section, the Demos section |
+| [`experience.js`](src/content/experience.js) | About timeline, résumé experience + open source |
+| [`skills.js`](src/content/skills.js) | Toolkit grid, résumé skills block |
+
+### The project flags, because I always forget which does what
+
+```js
+featured: true    // into the Work showcase — ONE per category, extras silently fall
+                  // through to the grid below
+demo: true        // out of Work entirely, into the Demos section
+resume: false     // off the résumé's Selected Projects
+embed: 'https://itch.io/embed/637364'   // iframe, renders inside the Demos frame
+status: 'live'    // 'live' | 'archived'. There is no 'ongoing' any more.
+```
+
+Adding a category needs an `accent` colour or the showcase card renders without its
+identity:
 
 ```js
 { id: 'mobile', label: 'Mobile', accent: '#f7c977' }
 ```
 
-`accent` is required for the showcase — it drives that card's top edge, watermark numeral,
-glow and hover colour, and its matching skin in the Demos section. Filters with no projects
-behind them hide themselves automatically.
+---
+
+## Traps I've already hit
+
+
+
+That plugin **must** stay at `order: 'pre'`. Vite percent-decodes `href` attributes, and
+`%SITE_URL%` looks like a broken escape — at default order the build dies with "URI
+malformed".
+
+**`sitemap.xml` and `robots.txt` are generated, not files.** They're emitted at build from
+`site.url` by the `seo-files` plugin in [`vite.config.js`](vite.config.js), and served in dev
+by the same plugin. Don't put copies back in `public/` — Vite copies that directory through
+untouched, and I'd be maintaining the domain in two more places. Adding a route means adding
+it to `SITEMAP_ROUTES`.
+
+**Tailwind is only a token layer.** `@theme` for the palette, `@custom-variant` for light
+mode, and that's it. Every component is hand-written scoped CSS against custom properties.
+There is exactly one utility class in the whole codebase (`mt-8`). Don't start sprinkling
+`flex gap-4` — it won't match anything else.
+
+**Accent colours as text need mixing in light mode.** The raw category hues fail WCAG AA at
+11px on the near-white surface — sand measures 3.09:1. They're mixed 50% toward the ink,
+which puts the worst case at 4.95:1. Anything lighter than 50% drops Mobile, Open Source and
+Desktop back under. Decoration (edges, dots, glows) uses the raw hue and is fine.
+
+**The reading progress bar is a sibling of `<header>`, not a child.** The header slides
+itself out of view on scroll-down, and a transformed ancestor drags its descendants with it
+
+**`LandingView.vue` must have a single root element.** `App.vue` wraps `<RouterView>` in a
+`<Transition mode="out-in">`, and a fragment root makes the transition bail — navigating to
+it from another route mounts nothing at all.
+
+**Section eyebrow numbers are hardcoded** (`index="01"` etc. in each section). Adding a
+section means renumbering the ones after it by hand. The Résumé nav number is derived from
+`site.sections.length`, so that one takes care of itself.
+
+**In `DemoFrame.vue`, the `:slotted()` rule deliberately doesn't set `display`.** It ties on
+specificity with `DemoSection`'s own `.launch` rule, so whichever style block loads last
+would win, and the launch card's centring would break at random.
 
 ---
 
-## Development
+## Commands
 
 ```bash
-npm install
-npm run dev          # dev server with HMR
-npm run build        # production build to dist/
-npm run preview      # serve the built output locally
+npm run dev          # HMR. Restart it after touching vite.config.js.
+npm run build        # -> dist/
+npm run preview      # serve the build
 
 npm run lint         # eslint --fix
-npm run format       # prettier --write
+npm run format       # prettier --write   <- CI fails without this
 ```
 
-Node 22 is what CI uses; anything ≥ 20 should be fine locally.
+CI uses Node 22. Anything ≥ 20 works locally.
 
 ---
 
-## Deployment
+## The hero, if I ever want to tune it
 
-Deployment is automatic. **Pushing to `master` builds and publishes the site** via
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml). Pull requests get a
-lint + format + build check from [`ci.yml`](.github/workflows/ci.yml), which also posts a
-bundle-size breakdown to the run summary.
+[`WaveField.vue`](src/components/WaveField.vue) + [`waveform.js`](src/lib/waveform.js).
+**Canvas 2D — not WebGL, no shader, no library.** 48 phase-shifted copies of one wave,
+stacked in perspective and composited additively.
 
-> **One-time setup:** in the repository's **Settings → Pages**, set **Source** to
-> **GitHub Actions**. The old `gh-pages` branch flow has been removed, and Pages will keep
-> serving the stale branch until this is switched over.
+Knobs are all in `waveform.js`: `BREATH_PERIOD` (11s cycle), `CYCLES`, `LINES` (48),
+`HARMONICS`.
 
-There is no `npm run deploy` any more — pushing is the deploy.
+The reason it's cheap: the wave is periodic in x, so one pass of 512 samples per frame feeds
+all 48 lines instead of 11,520 trig evaluations.
+
+**`BLOOM_FROM` in `WaveField.vue` is the perf knob.** Shadowed strokes are one of the
+slowest canvas ops, and this canvas is thousands of pixels wide. At `0.8` only the leading
+10 lines bloom; it used to be `0.45`, which was 26. If the hero ever feels janky on a weak
+machine, raise this before touching anything else.
+
+It already pauses via `IntersectionObserver` and `visibilitychange`, caps DPR at 2, renders
+one static frame under `prefers-reduced-motion`, and falls back to a CSS gradient with no 2D
+context.
 
 ---
 
-## Architecture
+## Architecture, briefly
 
 ```
 src/
-├─ content/       # ← all site copy and data (edit these)
-├─ sections/      # the five landing-page sections
-├─ components/    # reusable UI: hero canvas, header, palette, cards, frames, icons
-├─ composables/   # theme, scroll-spy, command palette state
-├─ lib/           # the wavetable behind the hero visual
-├─ directives/    # v-reveal scroll animation
-├─ views/         # routed pages: landing, résumé, 404
-└─ assets/main.css  # design tokens + base + component primitives
+├─ content/       # ← everything I actually edit
+├─ sections/      # Hero, Work, Demos, About, Contact
+├─ components/    # WaveField, FeaturedProject, DemoFrame, ProjectCard, header, palette…
+├─ composables/   # theme, scroll-spy, command palette
+├─ lib/           # the wavetable
+├─ directives/    # v-reveal (one shared IntersectionObserver)
+├─ views/         # landing, résumé, 404
+└─ assets/main.css  # design tokens + primitives
 ```
 
-Three routes, not one page: `/` (landing), `/resume` (printable) and a catch-all 404.
+Three routes: `/`, `/resume`, and a catch-all 404. `public/404.html` stashes the requested
+path in `sessionStorage` and bounces to `/`, which is what makes deep links like `/resume`
+survive GitHub Pages.
 
-### Notable pieces
+`DemoFrame.vue` skins each demo by category — arcade cabinet for games, browser for web,
+handset for mobile, app window for desktop, terminal for software, repo header for open
+source. Unknown categories get a plain frame, so adding one never breaks the section.
 
-**`components/WaveField.vue`** + **`lib/waveform.js`** — the hero visual, drawn to a
-**Canvas 2D** context. No WebGL, no shader, no animation library. Forty-eight phase-shifted
-copies of one wave are stacked in perspective and composited additively, so overlapping
-strokes accumulate into a surface rather than reading as separate lines. The whole field
-breathes on an eleven-second cycle while the wave shape itself morphs over tens of seconds.
+The ⌘K palette derives its commands from the content files, so new projects and sections
+show up in search on their own.
 
-The trick that makes it cheap is the wavetable: the wave is periodic in x, so one pass of
-512 samples per frame feeds all 48 lines instead of 11,520 evaluations of a four-term sum.
-It pauses via `IntersectionObserver` when scrolled past and on `visibilitychange`, caps DPR
-at 2, and renders one static frame with no animation loop under `prefers-reduced-motion`.
-Below 1080px it drops to 50% opacity so it never competes with the type; with no 2D context
-at all it falls back to a CSS gradient.
 
-Tuning lives in [`src/lib/waveform.js`](src/lib/waveform.js): `BREATH_PERIOD` sets the pace,
-`CYCLES` how many waves span the field, `LINES` how dense the surface is, and `HARMONICS`
-the character of the wave.
-
-**`components/FeaturedProject.vue`** — the Work showcase card. Every card is identical in
-size and treatment; what separates them is colour, taken from the category's `accent`. Text
-uses of that colour are mixed 50% toward the ink in light mode, which is the most hue that
-still clears WCAG AA at 11px.
-
-**`components/DemoFrame.vue`** — category-specific chrome for the Demos section: an arcade
-cabinet for games, a browser window for web, a handset for mobile, an app window for
-desktop, a terminal for software, a repo header for open source. Unknown categories fall
-through to a plain frame, so adding a category never breaks the section.
-
-**`assets/main.css`** — the design system. Raw palette ramps and motion easings live in
-Tailwind's `@theme`; semantic tokens (`--bg`, `--accent`, `--line`, …) are redefined per
-theme under `[data-theme]` and re-exposed to Tailwind via `@theme inline`. Themes switch by
-swapping one attribute on `<html>`, set by an inline script in `index.html` before first
-paint so there's no flash on load. Tailwind is used **only** as this token layer — every
-component is hand-written scoped CSS.
-
-**`directives/reveal.js`** — `v-reveal` scroll animations sharing one IntersectionObserver
-across the whole page. Supports variants and stagger:
-`v-reveal="{ variant: 'left', delay: 120 }"`.
-
-**`components/CommandPalette.vue`** — ⌘K / Ctrl+K / `/` opens fuzzy search over every
-section, project, link and action. Commands are derived from the content files, so it never
-needs updating separately.
-
-### Accessibility & performance
-
-- Every animation respects `prefers-reduced-motion`.
-- Skip link, focus-visible rings, labelled controls, and a `<noscript>` fallback linking to
-  GitHub.
-- ~59 KB gzipped JS on first load (21 KB app + 38 KB vendor), plus ~14 KB gzipped CSS. The
-  résumé and 404 routes are lazy chunks and don't load with the landing page.
-- Fonts are self-hosted variable subsets — no CDN. The only third-party request at runtime
-  is the itch.io demo embed, which is `loading="lazy"` and never fetched unless the Demos
-  section is reached.
-- `404.html` restores deep links (`/resume`) that GitHub Pages would otherwise drop.
-
----
-
-## Housekeeping
-
-- The `<noscript>` block in `index.html` hard-codes the role string ("Software Engineer")
-  rather than reading `site.role`, so it needs updating by hand if the title changes.
-- The social share image is currently the profile photo. To use a proper card, drop a
-  1200×630 PNG in `public/` and point `ogImage` in `site.js` plus the `og:image` tags in
-  `index.html` at it.
-- `sitemap.xml` and the JSON-LD block in `index.html` hard-code the production URL; update
-  both if the domain ever changes.

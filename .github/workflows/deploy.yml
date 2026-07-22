@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [production]
   # Lets you re-deploy from the Actions tab without pushing a commit.
   workflow_dispatch:
 
@@ -33,6 +33,11 @@ jobs:
 
       - name: Lint
         run: npm run lint:check
+
+      # Same gate as ci.yml, so a direct push can't deploy formatting drift that
+      # a pull request would have rejected.
+      - name: Check formatting
+        run: npm run format:check
 
       - name: Build
         run: npm run build
