@@ -8,11 +8,22 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-.DS_Store
 dist
 dist-ssr
 coverage
 *.local
+
+# Env files. Nothing here holds a real secret — this is a static build, so
+# anything in an env file ends up in the bundle anyway — but that's exactly why
+# committing one by reflex is worth preventing.
+.env
+.env.*
+!.env.example
+
+# OS junk. .DS_Store is macOS; the other two are what Windows leaves behind.
+.DS_Store
+Thumbs.db
+desktop.ini
 
 /cypress/videos/
 /cypress/screenshots/
