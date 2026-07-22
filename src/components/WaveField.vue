@@ -29,6 +29,16 @@ const supported = ref(true)
 const POINTS = 240
 
 /**
+ * Depth at which lines start getting a bloom. Shadowed strokes are among the
+ * slowest canvas 2D ops there are, and at full width this canvas is several
+ * thousand pixels across, so the count matters: this admits the leading 10 lines
+ * rather than 26. The ones behind them are drawn too faint for a blur to read
+ * anyway, and in dark mode their overlap still accumulates additively into a
+ * halo — the glow comes from the compositing, not from blurring every stroke.
+ */
+const BLOOM_FROM = 0.8
+
+/**
  * `back` and `front` are the colours the surface lerps between as lines come
  * forward. Dark mode composites additively, which needs low per-line alpha and
  * rewards saturated colour; light mode has to composite normally, because
@@ -131,9 +141,8 @@ function draw(elapsed) {
 
     ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`
     ctx.lineWidth = dpr * (0.7 + 0.8 * d)
-    // Bloom on the front of the stack only. Shadowed strokes are expensive, so
-    // the back two-thirds, which are too faint to bloom visibly, go without.
-    ctx.shadowBlur = d > 0.45 ? 14 * dpr : 0
+    // Bloom on the front of the stack only — see BLOOM_FROM.
+    ctx.shadowBlur = d > BLOOM_FROM ? 14 * dpr : 0
     ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${alpha})`
     ctx.stroke()
   }

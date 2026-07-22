@@ -108,10 +108,9 @@ export const projects = [
     title: 'This Portfolio',
     category: 'web',
     year: '2026',
-    blurb:
-      'A single-page Vue site with a command palette, a printable resume and zero UI dependencies.',
+    blurb: 'Vue 3, Vite and Tailwind v4, with a canvas hero drawn from a harmonic stack.',
     description:
-      'Built with Vue 3, Vite and Tailwind v4. The hero is a set of stacked waveform lines that breathe on a slow cycle, drawn to canvas from a small harmonic stack rather than a video or a library. All the content is data-driven, and every push to master deploys itself through GitHub Actions.',
+      'Vue 3 and vue-router across a landing page, a printable resume route and a 404. Vite builds it, stamping the deploy date in at compile time and splitting Vue into its own vendor chunk. Tailwind v4 is the token layer only — the palette and light-mode variant live in @theme, and the components are hand-written scoped CSS against those custom properties. The hero is Canvas 2D: 48 stacked waveform lines from a four-term harmonic stack, no WebGL and no animation library. ESLint, Prettier and a build gate every pull request; pushes to master deploy through GitHub Actions.',
     tech: ['Vue 3', 'Vite', 'Tailwind CSS', 'Canvas', 'GitHub Actions'],
     links: [
       {
