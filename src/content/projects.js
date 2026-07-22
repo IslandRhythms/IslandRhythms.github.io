@@ -23,6 +23,10 @@
  *                                 ignored and the project falls back to the grid
  *                                 below. Order follows `categories`.
  * @property {string}  [embed]     Optional iframe URL (e.g. an itch.io widget).
+ * @property {boolean} [resume]    Set false to keep a project out of Selected
+ *                                 Projects on the printable résumé. For work
+ *                                 already covered by a role's bullet points,
+ *                                 where listing it again just costs a line.
  * @property {boolean} [demo]      Moves this project into the Demos section and
  *                                 OUT of Work, so nothing appears on the page
  *                                 twice. Renders `embed` inline when there is
@@ -97,6 +101,8 @@ export const projects = [
     tech: ['JavaScript', 'Technical Writing', 'Node.js'],
     links: [{ label: 'masteringjs.io', href: 'https://masteringjs.io', kind: 'live' }],
     status: 'live',
+    // Already covered by the Junior Developer bullets on the résumé.
+    resume: false,
   },
   {
     slug: 'beat-bot',
@@ -117,10 +123,11 @@ export const projects = [
     title: 'SweetStash',
     category: 'mobile',
     year: '2026',
-    blurb: 'A halloween themed app going live on Oct 1st, 2026',
+    blurb:
+      'An iOS app for planning and tracking a trick-or-treating route, through App Store review and scheduled for October 2026.',
     description:
-      'An app built using react native and expo focused on helping kids keep track of their route and candy while trick or treating.',
-    tech: ['React Native', 'Expo'],
+      'Built in React Native and Expo, and owned end to end: interface, navigation, state management, and live location and mapping. It helps kids and parents plan a route on Halloween night and keep track of the haul along the way. Cleared Apple’s App Store review, with public release set for October 2026.',
+    tech: ['React Native', 'Expo', 'iOS'],
     links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/SweetStash', kind: 'code' }],
     status: 'live',
     featured: true,
@@ -227,7 +234,7 @@ export const projects = [
     links: [
       { label: 'Source', href: 'https://github.com/IslandRhythms/UnitConverter', kind: 'code' },
     ],
-    status: 'live',
+    status: 'archived',
   },
   {
     slug: 'pytrics',
@@ -252,7 +259,7 @@ export const projects = [
       'The first pass at the budgeting problem that later became Fundlog. Built with .NET MAUI and Blazor, it divided monthly income across customizable categories, tracked fixed and variable costs, and managed receipts with side-by-side price comparison. Shipping it taught me what the product needed to feel like before I rewrote it in Electron and Vue.',
     tech: ['C#', 'Blazor', 'HTML'],
     links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/dividex', kind: 'code' }],
-    status: 'archived'
+    status: 'archived',
   },
   {
     slug: 'udemy-ecommerce',

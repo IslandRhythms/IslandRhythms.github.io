@@ -13,6 +13,9 @@ export const skillGroups = [
     items: [
       'JavaScript',
       'Vue.js',
+      'Nuxt',
+      'React',
+      'React Native',
       'HTML5',
       'CSS3',
       'Tailwind CSS',
@@ -24,7 +27,7 @@ export const skillGroups = [
   {
     id: 'backend',
     label: 'Back End',
-    items: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose.js', 'REST APIs', 'SQL'],
+    items: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose.js', 'REST APIs', 'SQL', 'MySQL'],
   },
   {
     id: 'languages',
@@ -40,6 +43,7 @@ export const skillGroups = [
       'Mocha.js',
       'Webpack',
       'Postman',
+      'JIRA',
       'Netlify',
       'Linux',
       'Raspberry Pi',

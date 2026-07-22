@@ -1,6 +1,6 @@
 <script setup>
 import { site } from '@/content/site'
-import { education, experience } from '@/content/experience'
+import { education, experience, openSource } from '@/content/experience'
 import { skillGroups } from '@/content/skills'
 import SectionHeading from '@/components/SectionHeading.vue'
 import AppIcon from '@/components/AppIcon.vue'
@@ -8,6 +8,7 @@ import AppIcon from '@/components/AppIcon.vue'
 /** Work history then education, in one continuous timeline. */
 const timeline = [
   ...experience.map((role) => ({ ...role, kind: 'Experience' })),
+  ...openSource.map((role) => ({ ...role, kind: 'Open Source' })),
   ...education.map((role) => ({ ...role, kind: 'Education' })),
 ]
 </script>

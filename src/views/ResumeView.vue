@@ -6,13 +6,19 @@
  */
 import { onMounted } from 'vue'
 import { site } from '@/content/site'
-import { education, experience } from '@/content/experience'
+import { education, experience, openSource } from '@/content/experience'
 import { skillGroups } from '@/content/skills'
 import { projects } from '@/content/projects'
 import AppIcon from '@/components/AppIcon.vue'
 
-/** Featured plus anything currently live: the ones worth a recruiter's time. */
-const highlights = projects.filter((p) => p.featured || p.status === 'live').slice(0, 5)
+/**
+ * Featured plus anything currently live: the ones worth a recruiter's time.
+ * `resume: false` opts a project out — used where the work is already described
+ * under a role, so the page doesn't say the same thing twice.
+ */
+const highlights = projects
+  .filter((p) => p.resume !== false && (p.featured || p.status === 'live'))
+  .slice(0, 5)
 
 onMounted(() => window.scrollTo(0, 0))
 
@@ -81,6 +87,33 @@ function shortUrl(href) {
           <ul class="bullets">
             <li v-for="point in role.highlights" :key="point">{{ point }}</li>
           </ul>
+        </div>
+      </section>
+
+      <!-- Open source -->
+      <section class="block">
+        <h2>Open Source</h2>
+        <div v-for="entry in openSource" :key="entry.org" class="item">
+          <div class="item-head">
+            <h3>
+              {{ entry.title }} · <span class="org">{{ entry.org }}</span>
+            </h3>
+            <span class="period">{{ entry.period }}</span>
+          </div>
+          <ul class="bullets">
+            <li v-for="point in entry.highlights" :key="point">{{ point }}</li>
+          </ul>
+          <p v-if="entry.links" class="prs">
+            <a
+              v-for="link in entry.links"
+              :key="link.href"
+              :href="link.href"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ link.label }}
+            </a>
+          </p>
         </div>
       </section>
 
@@ -296,6 +329,30 @@ function shortUrl(href) {
   font-size: 0.875rem;
   line-height: 1.6;
   color: var(--text-muted);
+}
+
+/* Evidence links under an open-source entry. Monospace so a row of PR numbers
+   reads as references rather than prose. */
+.prs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.5rem;
+  padding-left: 1.125rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.prs a {
+  color: var(--accent);
+}
+
+/* On paper a bare "PR #11814" is a dead end, so print the URL after it. */
+@media print {
+  .prs a::after {
+    content: ' ' attr(href);
+    color: var(--text-faint);
+  }
 }
 
 /* ── Skills ──────────────────────────────────────────────────────────────── */

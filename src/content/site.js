@@ -21,7 +21,7 @@ export const site = {
   name: 'Daniel Christian Diaz',
   shortName: 'Daniel Diaz',
   initials: 'DD',
-  role: 'Software Engineer',
+  role: 'Full-Stack Software Engineer',
   location: 'Miami, FL',
   url: 'https://islandrhythms.github.io',
   /** Where the contact form posts. The only contact channel on the site. */
@@ -44,9 +44,14 @@ export const site = {
     highlight: 'fast, resilient',
   },
 
+  /**
+   * The About section renders every paragraph; the résumé page prints only the
+   * first, so bio[0] has to stand alone as a summary — lead with the stack and
+   * the numbers, and leave the colour for bio[1].
+   */
   bio: [
-    `I'm a software engineer with ${yearsShipping} years of experience shipping production web applications. Most of that time has been spent close to open source, partnering with the lead maintainer of Mongoose.js to build features for a library that gets downloaded over a million times a week, and writing twice-weekly tutorials that teach the JavaScript ecosystem to thousands of developers.`,
-    'My day to day covers the whole stack. Vue and Tailwind CSS on the front end, Node, Express and MongoDB behind it, with a bias toward clean, well-tested code and interfaces that feel effortless to use.',
+    `I'm a full-stack engineer with ${yearsShipping} years shipping and supporting production web applications in Vue and Nuxt, Node, Express and MongoDB. Most of that time has run alongside open source: building features with the lead maintainer of Mongoose.js for a library downloaded over a million times a week, and working through more than a thousand bug reports against it.`,
+    'Day to day that means the whole stack for client teams — REST APIs and MongoDB schemas, integrations like Stripe, Twilio and Cloudinary, and internal developer tooling that makes debugging someone else’s data less miserable. Outside of it I’ve taken an iOS app through App Store review and keep a Discord bot running on a Raspberry Pi in my apartment, which is a standing reminder that software has to survive without you watching it.',
   ],
 
   /** Headline numbers in the hero. The grid reflows for any count from 2 to 4. */
