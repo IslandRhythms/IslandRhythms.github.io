@@ -1,132 +1,72 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { useCommandPalette } from '@/composables/useCommandPalette'
+import SiteHeader from '@/components/SiteHeader.vue'
+import SiteFooter from '@/components/SiteFooter.vue'
+import CommandPalette from '@/components/CommandPalette.vue'
+
+// Bind ⌘K / Ctrl+K / "/" once, at the root.
+const { registerHotkey } = useCommandPalette()
+registerHotkey()
 </script>
 
 <template>
-  <div class="app-container">
-  <header class="py-2 shadow-sm navbar">
-    <nav class="container d-flex align-items-center justify-content-between">
-      <!-- Logo -->
-      <div class="logo-container">
-        <RouterLink to="/">
-          <img class="logo img-fluid" src="/Logo.png" alt="Logo" />
-        </RouterLink>
-      </div>
+  <a href="#main" class="skip-link">Skip to content</a>
 
-      <!-- Navigation Links -->
-      <div class="nav-links">
-        <RouterLink class="nav-link d-inline-block mx-2" to="/">Home</RouterLink>
-        <RouterLink class="nav-link d-inline-block mx-2" to="/contact">Contact</RouterLink>
-        <RouterLink class="nav-link d-inline-block mx-2" to="/about">About</RouterLink>
-        <RouterLink class="nav-link d-inline-block mx-2" to="/portfolio">Portfolio</RouterLink>
-      </div>
-    </nav>
-  </header>
+  <SiteHeader />
 
-  <main class="main container py-5">
-    <div class="profile text-center">
-      <img
-        class="pic rounded-circle img-fluid"
-        src="/WebsiteProfilePic.png"
-        alt="Profile Picture"
-      />
-    </div>
-    <div class="content mt-4">
-      <RouterView />
-    </div>
+  <main id="main">
+    <RouterView v-slot="{ Component, route }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" :key="route.path" />
+      </Transition>
+    </RouterView>
   </main>
-  </div>
+
+  <SiteFooter />
+  <CommandPalette />
 </template>
 
 <style scoped>
-.app-container {
-  min-width: 320px;
-  max-width: 100vw;
-  overflow-x: hidden;
-  width: 100%;
-  box-sizing: border-box;
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 50%;
+  translate: -50% -200%;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--color-abyss-950);
+  font-size: 0.875rem;
+  font-weight: 560;
+  transition: translate 0.3s var(--ease-out-expo);
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
+.skip-link:focus-visible {
+  translate: -50% 0;
 }
 
-.navbar {
-  background-color: var(--bs-dark);
-  color: var(--bs-body-color);
+/* Route transitions — a short cross-fade, deliberately understated so it
+   doesn't fight the scroll animations on the landing page. */
+.page-enter-active {
+  transition:
+    opacity 0.4s ease,
+    transform 0.5s var(--ease-out-expo);
 }
 
-/* Light mode navbar styling */
-@media (prefers-color-scheme: light) {
-  .navbar {
-    background-color: var(--bs-light);
-    color: var(--bs-dark);
-  }
-  
-  .navbar .nav-link {
-    color: var(--bs-dark) !important;
-  }
-  
-  .navbar .nav-link:hover {
-    color: var(--bs-primary) !important;
-  }
+.page-leave-active {
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease;
 }
 
-/* Dark mode navbar styling */
-@media (prefers-color-scheme: dark) {
-  .navbar {
-    background-color: var(--bs-dark);
-    color: var(--bs-body-color);
-  }
-  
-  .navbar .nav-link {
-    color: var(--bs-body-color) !important;
-  }
-  
-  .navbar .nav-link:hover {
-    color: var(--bs-warning) !important;
-  }
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
 }
 
-.logo-container {
-  max-width: 120px; /* Control logo size */
-}
-
-.logo {
-  width: 100%;
-}
-
-.profile {
-  max-width: 600px;
-  min-width: 320px;
-  margin: auto;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 1rem;
-}
-
-.pic {
-  max-width: 150px; /* Adjust profile picture size */
-  height: auto;
-  border: 2px solid #ddd;
-  padding: 5px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .app-container {
-    min-width: 280px;
-  }
-  
-  .profile {
-    min-width: 280px;
-    padding: 0 1rem;
-    max-width: 100%;
-  }
-}
-
-.nav-links .nav-link:hover {
-  text-decoration: underline;
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
 }
 </style>
