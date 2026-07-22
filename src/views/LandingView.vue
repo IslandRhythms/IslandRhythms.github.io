@@ -10,6 +10,7 @@
  */
 import HeroSection from '@/sections/HeroSection.vue'
 import WorkSection from '@/sections/WorkSection.vue'
+import DemoSection from '@/sections/DemoSection.vue'
 import AboutSection from '@/sections/AboutSection.vue'
 import ContactSection from '@/sections/ContactSection.vue'
 </script>
@@ -18,6 +19,7 @@ import ContactSection from '@/sections/ContactSection.vue'
   <div class="landing">
     <HeroSection />
     <WorkSection />
+    <DemoSection />
     <AboutSection />
     <ContactSection />
   </div>

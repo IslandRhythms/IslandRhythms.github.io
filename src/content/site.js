@@ -46,7 +46,7 @@ export const site = {
 
   bio: [
     `I'm a software engineer with ${yearsShipping} years of experience shipping production web applications. Most of that time has been spent close to open source, partnering with the lead maintainer of Mongoose.js to build features for a library that gets downloaded over a million times a week, and writing twice-weekly tutorials that teach the JavaScript ecosystem to thousands of developers.`,
-    'My day to day covers the whole stack. Vue and modern CSS on the front end, Node, Express and MongoDB behind it, with a bias toward clean, well-tested code and interfaces that feel effortless to use.',
+    'My day to day covers the whole stack. Vue and Tailwind CSS on the front end, Node, Express and MongoDB behind it, with a bias toward clean, well-tested code and interfaces that feel effortless to use.',
   ],
 
   /** Headline numbers in the hero. The grid reflows for any count from 2 to 4. */
@@ -70,6 +70,7 @@ export const site = {
   /** In-page sections, in scroll order. Drives the nav, scroll-spy and ⌘K palette. */
   sections: [
     { id: 'work', label: 'Work' },
+    { id: 'demos', label: 'Demos' },
     { id: 'about', label: 'About' },
     { id: 'contact', label: 'Contact' },
   ],

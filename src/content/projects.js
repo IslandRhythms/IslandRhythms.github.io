@@ -15,9 +15,20 @@
  * @property {string}  description Fuller detail, shown when the card expands.
  * @property {string[]} tech       Technologies; rendered as chips.
  * @property {Link[]}  links       Call-to-action links. First one is primary.
- * @property {'live'|'archived'|'ongoing'} [status] Adds a status pill.
- * @property {boolean} [featured]  Featured projects render at double width.
+ * @property {'live'|'archived'} [status] Adds a status pill.
+ * @property {boolean} [featured]  Promotes this project into the showcase at the
+ *                                 top of the Work section. Exactly ONE per
+ *                                 category — the showcase is a one-per-category
+ *                                 tour, so a second flag in the same category is
+ *                                 ignored and the project falls back to the grid
+ *                                 below. Order follows `categories`.
  * @property {string}  [embed]     Optional iframe URL (e.g. an itch.io widget).
+ * @property {boolean} [demo]      Moves this project into the Demos section and
+ *                                 OUT of Work, so nothing appears on the page
+ *                                 twice. Renders `embed` inline when there is
+ *                                 one, and falls back to a big "try it" link
+ *                                 card when there isn't — so a demo without an
+ *                                 embed still has somewhere to go.
  *
  * @typedef  {object}  Link
  * @property {string}  label
@@ -25,26 +36,37 @@
  * @property {'code'|'live'|'store'} [kind] Picks the icon.
  *
  * TEMPLATE, copy me:
- * {
- *   slug: 'my-project',
- *   title: 'My Project',
- *   category: 'web',
- *   year: '2026',
- *   blurb: 'One sentence on what it does and why it mattered.',
- *   description: 'A paragraph or two with the detail a reader wants next.',
- *   tech: ['Vue', 'Node.js'],
- *   links: [{ label: 'Source', href: 'https://github.com/...', kind: 'code' }],
- *   status: 'live',
- *   featured: false,
- * }
+ {
+   slug: 'my-project',
+   title: 'My Project',
+   category: 'web',
+   year: '2026',
+   blurb: 'One sentence on what it does and why it mattered.',
+   description: 'A paragraph or two with the detail a reader wants next.',
+   tech: ['Vue', 'Node.js'],
+   links: [{ label: 'Source', href: 'https://github.com/...', kind: 'code' }],
+   status: 'live',
+   featured: false,
+ }
  */
 
-/** Category definitions. Order here is the order of the filter bar. */
+/**
+ * Category definitions. Order here is the order of the filter bar, and also the
+ * order of the showcase at the top of the Work section.
+ *
+ * `accent` is the card colour for that category's showcase entry. Every card up
+ * there gets identical size and treatment, so colour is what stops six equal
+ * panels reading as a spreadsheet. The hues stay inside the site's coastal
+ * range — saturated, slightly tropical, no primaries.
+ */
 export const categories = [
   { id: 'all', label: 'All Work' },
-  { id: 'web', label: 'Web' },
-  { id: 'software', label: 'Software' },
-  { id: 'games', label: 'Games' },
+  { id: 'open-source', label: 'Open Source', accent: '#2ddcc4' },
+  { id: 'web', label: 'Web', accent: '#56b8f0' },
+  { id: 'software', label: 'Software', accent: '#9b8cf5' },
+  { id: 'games', label: 'Games', accent: '#ff8f76' },
+  { id: 'mobile', label: 'Mobile', accent: '#f7c977' },
+  { id: 'desktop', label: 'Desktop', accent: '#6fd8a8' },
 ]
 
 /** @type {Project[]} */
@@ -52,7 +74,7 @@ export const projects = [
   {
     slug: 'mongoose',
     title: 'Mongoose.js',
-    category: 'software',
+    category: 'open-source',
     year: 'Since 2021',
     blurb:
       'Co-developed features and triaged over a thousand issues for the MongoDB ODM that powers a million-plus downloads a week.',
@@ -87,7 +109,33 @@ export const projects = [
       'Built for my own server and then adopted by friends’ communities. Beat-Bot spans games, utility commands, learning tools and music playback, backed by MongoDB for per-guild state. It runs on a Raspberry Pi in my apartment, which has taught me a lot about writing software that has to survive unattended.',
     tech: ['Node.js', 'MongoDB', 'Discord.js', 'Raspberry Pi'],
     links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Beat-Bot', kind: 'code' }],
-    status: 'ongoing',
+    status: 'live',
+    featured: true,
+  },
+  {
+    slug: 'sweetstash',
+    title: 'SweetStash',
+    category: 'mobile',
+    year: '2026',
+    blurb: 'A halloween themed app going live on Oct 1st, 2026',
+    description:
+      'An app built using react native and expo focused on helping kids keep track of their route and candy while trick or treating.',
+    tech: ['React Native', 'Expo'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/SweetStash', kind: 'code' }],
+    status: 'live',
+    featured: true,
+  },
+  {
+    slug: 'Fundlog',
+    title: 'Fundlog',
+    category: 'desktop',
+    year: '2026',
+    blurb: 'A desktop application for keeping track of finances and spending',
+    description:
+      'A desktop application built using electron with Vue to help with budgeting and seeing where every dollar goes.',
+    tech: ['Electron', 'Electron-Forge', 'Vue'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Fundlog', kind: 'code' }],
+    status: 'live',
     featured: true,
   },
   {
@@ -121,6 +169,7 @@ export const projects = [
       { label: 'You’re on it', href: 'https://islandrhythms.github.io/', kind: 'live' },
     ],
     status: 'live',
+    featured: true,
   },
   {
     slug: 'xcom-2-mods',
@@ -140,7 +189,8 @@ export const projects = [
       },
       { label: 'Repos', href: 'https://github.com/IslandRhythms?tab=repositories', kind: 'code' },
     ],
-    status: 'ongoing',
+    status: 'live',
+    featured: true,
   },
   {
     slug: 'grim-shredder',
@@ -162,11 +212,12 @@ export const projects = [
     ],
     embed: 'https://itch.io/embed/637364',
     status: 'live',
+    demo: true,
   },
   {
     slug: 'unit-converter',
     title: 'Unit Converter',
-    category: 'software',
+    category: 'desktop',
     year: '2020',
     blurb:
       'An offline Java Swing desktop utility for metric ↔ imperial conversion, built to speed up 3D printing work.',
@@ -176,7 +227,20 @@ export const projects = [
     links: [
       { label: 'Source', href: 'https://github.com/IslandRhythms/UnitConverter', kind: 'code' },
     ],
-    status: 'archived',
+    status: 'live',
+  },
+  {
+    slug: 'pytrics',
+    title: 'Pytrics',
+    category: 'desktop',
+    year: '2026',
+    blurb:
+      'A Python rewrite of my 2020 Java converter, taking another run at the same problem six years on.',
+    description:
+      'The Swing original still runs, so this was less a replacement than an exercise in hindsight — the same offline metric ↔ imperial conversion a 3D printer keeps demanding, rebuilt in Python to find out what six more years of writing software would change about how I approached it.',
+    tech: ['Python'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Pytrics', kind: 'code' }],
+    status: 'live',
   },
   {
     slug: 'udemy-ecommerce',
@@ -187,7 +251,7 @@ export const projects = [
       'A full storefront with catalogue, cart and checkout, built while working through a course on production web apps.',
     description:
       'A complete e-commerce build covering product catalogue, cart state and checkout flow. It was deployed to Heroku until free dynos were discontinued, so it now lives as source only.',
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'JavaScript'],
+    tech: ['Node.js', 'Express.js', 'MongoDB', 'React'],
     links: [
       { label: 'Source', href: 'https://github.com/IslandRhythms/UdemyWebsite', kind: 'code' },
     ],

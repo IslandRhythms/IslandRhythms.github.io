@@ -50,7 +50,7 @@ async function submit() {
   <section id="contact" class="section">
     <div class="shell">
       <SectionHeading
-        index="03"
+        index="04"
         eyebrow="Contact"
         title="Let's build something."
         lead="Have a project, a role, or just a question about something on this page? I read everything that comes through here."

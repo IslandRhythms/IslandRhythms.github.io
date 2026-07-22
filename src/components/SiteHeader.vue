@@ -57,16 +57,25 @@ onBeforeUnmount(() => (document.body.style.overflow = ''))
 const onLanding = computed(() => route.name === 'home')
 const shortcut = computed(() => (isMac.value ? '⌘K' : 'Ctrl K'))
 
+/** Résumé sits after the in-page sections, so its number follows from them
+ *  rather than being written down twice and drifting when a section is added. */
+const resumeIndex = computed(() => String(site.sections.length + 1).padStart(2, '0'))
+
 function linkTo(id) {
   return { path: '/', hash: `#${id}` }
 }
 </script>
 
 <template>
-  <header class="site-header no-print" :class="{ 'is-scrolled': scrolled, 'is-hidden': hidden }">
-    <!-- Reading progress -->
-    <div class="progress" :style="{ transform: `scaleX(${progress})` }" aria-hidden="true" />
+  <!-- Reading progress. Deliberately a sibling of <header>, not a child: the
+       header slides itself out of view on the way down, and a transformed
+       ancestor drags its descendants with it — so nesting the bar here meant it
+       vanished exactly when you were reading far enough to want it. -->
+  <div class="progress-rail no-print" aria-hidden="true">
+    <div class="progress" :style="{ transform: `scaleX(${progress})` }" />
+  </div>
 
+  <header class="site-header no-print" :class="{ 'is-scrolled': scrolled, 'is-hidden': hidden }">
     <div class="shell bar">
       <!-- Full DCD lockup: mark plus the "Design · Code · Deliver" tagline.
            The tagline hides on narrow screens where the nav needs the room. -->
@@ -88,7 +97,7 @@ function linkTo(id) {
           {{ section.label }}
         </RouterLink>
         <RouterLink to="/resume" class="nav-link" :class="{ 'is-active': route.name === 'resume' }">
-          <span class="nav-index">04</span>
+          <span class="nav-index">{{ resumeIndex }}</span>
           Résumé
         </RouterLink>
       </nav>
@@ -129,7 +138,7 @@ function linkTo(id) {
           <AppIcon name="arrow" :size="16" />
         </RouterLink>
         <RouterLink to="/resume" class="sheet-link" :style="{ '--i': site.sections.length }">
-          <span class="nav-index">04</span>
+          <span class="nav-index">{{ resumeIndex }}</span>
           Résumé
           <AppIcon name="arrow" :size="16" />
         </RouterLink>
@@ -164,11 +173,20 @@ function linkTo(id) {
   transform: translateY(-100%);
 }
 
-.progress {
-  position: absolute;
-  bottom: -1px;
+/* Pinned to the very top of the viewport and stacked above the header, so it
+   stays put whether the header is showing or tucked away. */
+.progress-rail {
+  position: fixed;
+  top: 0;
   left: 0;
+  right: 0;
   height: 2px;
+  z-index: 70;
+  pointer-events: none;
+}
+
+.progress {
+  height: 100%;
   width: 100%;
   transform-origin: left;
   background: linear-gradient(90deg, var(--accent), var(--gold));

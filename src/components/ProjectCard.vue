@@ -25,7 +25,6 @@ function onPointerMove(event) {
 
 const STATUS_LABEL = {
   live: 'Live',
-  ongoing: 'Ongoing',
   archived: 'Archived',
 }
 
@@ -44,7 +43,7 @@ const bodyId = `project-body-${props.project.slug}`
     ref="card"
     v-reveal="{ delay: (index % 3) * 90 }"
     class="card panel"
-    :class="{ 'is-featured': project.featured, 'is-expanded': expanded }"
+    :class="{ 'is-expanded': expanded }"
     @pointermove="onPointerMove"
   >
     <div class="spotlight" aria-hidden="true" />
@@ -127,12 +126,6 @@ const bodyId = `project-body-${props.project.slug}`
   border-color: var(--line-strong);
 }
 
-@media (min-width: 900px) {
-  .card.is-featured {
-    grid-column: span 2;
-  }
-}
-
 /* Cursor-tracking highlight */
 .spotlight {
   position: absolute;
@@ -186,11 +179,6 @@ const bodyId = `project-body-${props.project.slug}`
 .status[data-status='live'] i {
   background: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
-}
-
-.status[data-status='ongoing'] i {
-  background: var(--gold);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 22%, transparent);
 }
 
 .status[data-status='archived'] i {
