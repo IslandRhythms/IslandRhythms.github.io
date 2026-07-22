@@ -15,11 +15,7 @@ const timeline = [
 <template>
   <section id="about" class="section">
     <div class="shell">
-      <SectionHeading
-        index="02"
-        eyebrow="About"
-        title="Four years of shipping, and a habit of reading the source."
-      />
+      <SectionHeading index="02" eyebrow="About" title="I like knowing how things actually work." />
 
       <!-- Portrait + bio -->
       <div class="intro">

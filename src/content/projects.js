@@ -1,16 +1,16 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- * PROJECTS — the single source of truth for the Work section.
+ * PROJECTS: the single source of truth for the Work section.
  * ─────────────────────────────────────────────────────────────────────────────
  * To add a project, copy the template below, drop it anywhere in the `projects`
- * array, and you're done — filters, counts, cards, the ⌘K palette and the résumé
+ * array, and you're done. Filters, counts, cards, the ⌘K palette and the résumé
  * page all pick it up automatically.
  *
  * @typedef  {object}  Project
  * @property {string}  slug        Unique, URL-safe id.
  * @property {string}  title       Display name.
  * @property {string}  category    One of the `categories` keys below.
- * @property {string}  [year]      e.g. '2024' or '2021 — present'.
+ * @property {string}  [year]      e.g. '2024' or 'Since 2021'.
  * @property {string}  blurb       One punchy sentence for the card face.
  * @property {string}  description Fuller detail, shown when the card expands.
  * @property {string[]} tech       Technologies; rendered as chips.
@@ -24,7 +24,7 @@
  * @property {string}  href
  * @property {'code'|'live'|'store'} [kind] Picks the icon.
  *
- * TEMPLATE — copy me:
+ * TEMPLATE, copy me:
  * {
  *   slug: 'my-project',
  *   title: 'My Project',
@@ -39,7 +39,7 @@
  * }
  */
 
-/** Category definitions — order here is the order of the filter bar. */
+/** Category definitions. Order here is the order of the filter bar. */
 export const categories = [
   { id: 'all', label: 'All Work' },
   { id: 'web', label: 'Web' },
@@ -53,7 +53,7 @@ export const projects = [
     slug: 'mongoose',
     title: 'Mongoose.js',
     category: 'software',
-    year: '2021 — present',
+    year: 'Since 2021',
     blurb:
       'Co-developed features and triaged over a thousand issues for the MongoDB ODM that powers a million-plus downloads a week.',
     description:
@@ -67,11 +67,11 @@ export const projects = [
     slug: 'masteringjs',
     title: 'Mastering JS',
     category: 'web',
-    year: '2021 — present',
+    year: 'Since 2021',
     blurb:
       'Authored two tutorials a week teaching JavaScript fundamentals, published to a site read by developers worldwide.',
     description:
-      'A twice-weekly writing cadence covering everything from async fundamentals to framework-specific recipes. Each article had to be technically exact, runnable, and short enough to be useful at 2am — a genuinely good discipline for learning to explain hard things simply.',
+      'A twice-weekly writing cadence covering everything from async fundamentals to framework-specific recipes. Each article had to be technically exact, runnable, and short enough to be useful at 2am. It turned out to be a great way to learn how to explain hard things simply.',
     tech: ['JavaScript', 'Technical Writing', 'Node.js'],
     links: [{ label: 'masteringjs.io', href: 'https://masteringjs.io', kind: 'live' }],
     status: 'live',
@@ -80,9 +80,9 @@ export const projects = [
     slug: 'beat-bot',
     title: 'Beat-Bot',
     category: 'software',
-    year: '2020 — present',
+    year: 'Since 2020',
     blurb:
-      'A Discord bot with games, utilities, a music player and MongoDB persistence — self-hosted on a Raspberry Pi.',
+      'A Discord bot with games, utilities, a music player and MongoDB persistence, self-hosted on a Raspberry Pi.',
     description:
       'Built for my own server and then adopted by friends’ communities. Beat-Bot spans games, utility commands, learning tools and music playback, backed by MongoDB for per-guild state. It runs on a Raspberry Pi in my apartment, which has taught me a lot about writing software that has to survive unattended.',
     tech: ['Node.js', 'MongoDB', 'Discord.js', 'Raspberry Pi'],
@@ -98,7 +98,7 @@ export const projects = [
     blurb:
       'Fed a song, album or playlist to the Spotify API and returned the most recurring musical key.',
     description:
-      'A tool for musicians: point it at any Spotify track, album or playlist and it surfaces the dominant key signature across it. In late 2024 Spotify revoked developer access to the audio-features endpoints the app depended on, so it no longer functions — a useful lesson in the risk of building on someone else’s platform.',
+      'A tool for musicians. Point it at any Spotify track, album or playlist and it surfaces the dominant key signature across it. In late 2024 Spotify revoked developer access to the audio-features endpoints the app depended on, so it no longer works. A useful lesson in what happens when you build on someone else’s platform.',
     tech: ['JavaScript', 'Spotify API', 'Node.js'],
     links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/MyKeySig', kind: 'code' }],
     status: 'archived',
@@ -109,10 +109,10 @@ export const projects = [
     category: 'web',
     year: '2026',
     blurb:
-      'A single-page Vue site with a hand-written WebGL hero shader, a command palette, and zero UI dependencies.',
+      'A single-page Vue site with a command palette, a printable resume and zero UI dependencies.',
     description:
-      'Built with Vue 3, Vite and Tailwind v4. The hero is a custom GLSL fragment shader — domain-warped fractal noise rendered on a single quad, roughly four kilobytes and no three.js — that degrades to a static gradient when WebGL is unavailable or the visitor prefers reduced motion. Content is fully data-driven, and every push to master deploys itself through GitHub Actions.',
-    tech: ['Vue 3', 'Vite', 'Tailwind CSS', 'WebGL / GLSL', 'GitHub Actions'],
+      'Built with Vue 3, Vite and Tailwind v4. The hero is a set of stacked waveform lines that breathe on a slow cycle, drawn to canvas from a small harmonic stack rather than a video or a library. All the content is data-driven, and every push to master deploys itself through GitHub Actions.',
+    tech: ['Vue 3', 'Vite', 'Tailwind CSS', 'Canvas', 'GitHub Actions'],
     links: [
       {
         label: 'Source',
@@ -127,7 +127,7 @@ export const projects = [
     slug: 'xcom-2-mods',
     title: 'XCOM 2 Mods',
     category: 'games',
-    year: '2021 — present',
+    year: 'Since 2021',
     blurb:
       'A published collection of quality-of-life mods for XCOM 2, reverse-engineered from famously thin documentation.',
     description:
@@ -185,7 +185,7 @@ export const projects = [
     category: 'web',
     year: '2021',
     blurb:
-      'A full storefront — catalogue, cart and checkout — built while working through a course on production web apps.',
+      'A full storefront with catalogue, cart and checkout, built while working through a course on production web apps.',
     description:
       'A complete e-commerce build covering product catalogue, cart state and checkout flow. It was deployed to Heroku until free dynos were discontinued, so it now lives as source only.',
     tech: ['Node.js', 'Express.js', 'MongoDB', 'JavaScript'],

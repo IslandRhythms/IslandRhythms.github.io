@@ -93,6 +93,7 @@ src/
 ├─ sections/      # the four landing-page sections
 ├─ components/    # reusable UI: shader, header, palette, cards, icons
 ├─ composables/   # theme, scroll-spy, command palette state
+├─ lib/           # the synth engine behind the hero visual
 ├─ directives/    # v-reveal scroll animation
 ├─ views/         # routed pages: landing, résumé, 404
 └─ assets/main.css  # design tokens + base + component primitives
@@ -100,12 +101,16 @@ src/
 
 ### Notable pieces
 
-**`components/ShaderField.vue`** — the hero background. A single full-screen quad running a
-GLSL fragment shader: five-octave value-noise fBm, domain-warped twice, then shaped into
-caustic bands with a ridged sine. Raw WebGL, no three.js. It caps resolution at 1.75× DPR,
-parks its render loop when scrolled out of view or the tab is hidden, renders one static
-frame under `prefers-reduced-motion`, and falls back to a CSS gradient when WebGL is
-unavailable.
+**`components/WaveField.vue`** + **`lib/waveform.js`** — the hero visual. Three stacked
+waveform lines that breathe: amplitude swells and recedes on an eight second cycle, staggered
+so the layers drift gently through one another, while the wave shape itself morphs over tens
+of seconds. No beat, no spectrum, nothing that competes with the type. On screens under
+1080px it drops to 42% opacity, and under `prefers-reduced-motion` it renders one static frame
+with no animation loop at all.
+
+Tuning lives in [`src/lib/waveform.js`](src/lib/waveform.js): `BREATH_PERIOD` sets the pace,
+`CYCLES` how many waves span the field, `LAYERS` how many lines, and `HARMONICS` the character
+of the wave.
 
 **`assets/main.css`** — the design system. Raw palette ramps and motion easings live in
 Tailwind's `@theme`; semantic tokens (`--bg`, `--accent`, `--line`, …) are redefined per

@@ -20,7 +20,6 @@ const query = ref('')
 const cursor = ref(0)
 const input = ref(null)
 const listEl = ref(null)
-const copied = ref(false)
 
 const commands = computed(() => {
   const list = []
@@ -62,9 +61,9 @@ const commands = computed(() => {
       id: `link-${social.label}`,
       group: 'Links',
       label: social.label,
-      hint: social.href.replace(/^mailto:|^https?:\/\//, ''),
+      hint: social.href.replace(/^https?:\/\//, ''),
       icon: social.icon,
-      external: !social.href.startsWith('mailto:'),
+      external: true,
       run: () => window.open(social.href, '_blank', 'noopener'),
     })
   }
@@ -78,23 +77,6 @@ const commands = computed(() => {
       icon: theme.value === 'dark' ? 'sun' : 'moon',
       keepOpen: true,
       run: toggleTheme,
-    },
-    {
-      id: 'action-copy',
-      group: 'Actions',
-      label: 'Copy email address',
-      hint: site.email,
-      icon: 'mail',
-      keepOpen: true,
-      run: async () => {
-        try {
-          await navigator.clipboard.writeText(site.email)
-          copied.value = true
-          setTimeout(() => (copied.value = false), 1800)
-        } catch {
-          window.location.href = `mailto:${site.email}`
-        }
-      },
     },
     {
       id: 'action-print',
@@ -263,7 +245,6 @@ watch(open, async (isOpen) => {
           <div class="foot">
             <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
             <span><kbd>↵</kbd> select</span>
-            <span class="copied" :class="{ 'is-on': copied }">Copied to clipboard</span>
           </div>
         </div>
       </div>
@@ -420,17 +401,6 @@ kbd {
   border-radius: 4px;
   border: 1px solid var(--line-strong);
   color: var(--text-faint);
-}
-
-.copied {
-  margin-left: auto;
-  color: var(--accent);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.copied.is-on {
-  opacity: 1;
 }
 
 /* Transition */

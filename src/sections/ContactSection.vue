@@ -8,12 +8,11 @@ const form = ref({ name: '', email: '', message: '', _gotcha: '' })
 /** 'idle' | 'sending' | 'sent' | 'error' */
 const state = ref('idle')
 const error = ref('')
-const copied = ref(false)
 
 async function submit() {
   if (state.value === 'sending') return
 
-  // Honeypot — bots fill hidden fields, humans never see this one.
+  // Honeypot: bots fill hidden fields, humans never see this one.
   if (form.value._gotcha) {
     state.value = 'sent'
     return
@@ -42,17 +41,7 @@ async function submit() {
     form.value = { name: '', email: '', message: '', _gotcha: '' }
   } catch (err) {
     state.value = 'error'
-    error.value = err.message || 'Something went wrong. Email me directly instead?'
-  }
-}
-
-async function copyEmail() {
-  try {
-    await navigator.clipboard.writeText(site.email)
-    copied.value = true
-    setTimeout(() => (copied.value = false), 1800)
-  } catch {
-    window.location.href = `mailto:${site.email}`
+    error.value = err.message || 'Something went wrong on the way out. Mind trying again?'
   }
 }
 </script>
@@ -68,17 +57,20 @@ async function copyEmail() {
       />
 
       <div class="layout">
-        <!-- Direct channels -->
+        <!-- The form is the only contact channel; these are profile links. -->
         <aside v-reveal="'left'" class="aside">
-          <button type="button" class="email-btn panel" @click="copyEmail">
-            <span class="email-label">
-              <AppIcon name="mail" :size="15" />
-              Email
-            </span>
-            <span class="email-value">{{ site.email }}</span>
-            <span class="email-hint">{{ copied ? 'Copied' : 'Click to copy' }}</span>
-          </button>
+          <div class="note panel">
+            <p class="note-label">
+              <AppIcon name="spark" :size="15" />
+              How this works
+            </p>
+            <p class="note-body">
+              Send the form and it lands in my inbox. I usually reply within a day or two. No
+              address to copy, no mailing list, no follow-up you didn't ask for.
+            </p>
+          </div>
 
+          <p class="channels-label">Find me elsewhere</p>
           <ul class="channels">
             <li v-for="social in site.socials" :key="social.label">
               <a :href="social.href" target="_blank" rel="noopener noreferrer" class="channel">
@@ -156,7 +148,7 @@ async function copyEmail() {
 
             <p class="status" role="status" aria-live="polite">
               <span v-if="state === 'sent'" class="ok">
-                Thanks — I'll get back to you shortly.
+                Thanks, that came through. I'll get back to you shortly.
               </span>
               <span v-else-if="state === 'error'" class="bad">{{ error }}</span>
             </p>
@@ -192,25 +184,15 @@ async function copyEmail() {
   gap: 1.25rem;
 }
 
-.email-btn {
+.note {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.625rem;
   padding: 1.5rem;
   border-radius: 1.25rem;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    border-color 0.3s ease,
-    transform 0.45s var(--ease-out-expo);
 }
 
-.email-btn:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-}
-
-.email-label {
+.note-label {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -221,18 +203,19 @@ async function copyEmail() {
   color: var(--accent);
 }
 
-.email-value {
-  font-size: 1rem;
-  color: var(--text-strong);
-  word-break: break-all;
+.note-body {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-muted);
 }
 
-.email-hint {
+.channels-label {
   font-family: var(--font-mono);
   font-size: 0.625rem;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-faint);
+  margin-bottom: -0.5rem;
 }
 
 .channels {

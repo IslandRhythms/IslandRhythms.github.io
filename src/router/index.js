@@ -7,20 +7,20 @@ const routes = [
     path: '/',
     name: 'home',
     component: LandingView,
-    meta: { title: `${site.name} — ${site.role}` },
+    meta: { title: `${site.name}, ${site.role}` },
   },
   {
     path: '/resume',
     name: 'resume',
     // Code-split: the résumé is a secondary page, no reason to ship it up front.
     component: () => import('../views/ResumeView.vue'),
-    meta: { title: `Résumé — ${site.name}` },
+    meta: { title: `Résumé | ${site.name}` },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../views/NotFoundView.vue'),
-    meta: { title: `Page not found — ${site.name}` },
+    meta: { title: `Page not found | ${site.name}` },
   },
 ]
 

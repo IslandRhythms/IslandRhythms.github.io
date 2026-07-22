@@ -16,7 +16,7 @@ defineProps({
 
 <template>
   <span class="wordmark" :class="{ 'is-compact': compact }">
-    <svg viewBox="0 0 92 32" class="mark" role="img" aria-label="DCD — Design, Code, Deliver">
+    <svg viewBox="0 0 92 32" class="mark" role="img" aria-label="DCD. Design, Code, Deliver.">
       <!-- D -->
       <path
         d="M6 5h8a11 11 0 0 1 0 22H6z"

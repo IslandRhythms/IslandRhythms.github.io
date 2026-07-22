@@ -1,6 +1,6 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- * CAREER — work history and education, rendered as the About timeline and the
+ * CAREER: work history and education, rendered as the About timeline and the
  * printable résumé at /resume.
  * ─────────────────────────────────────────────────────────────────────────────
  *
@@ -8,7 +8,7 @@
  * @property {string}   title     Job or degree title.
  * @property {string}   org       Company or school.
  * @property {string}   [url]     Link on the org name.
- * @property {string}   period    e.g. 'Jan 2021 — Present'.
+ * @property {string}   period    e.g. 'Since January 2021'.
  * @property {string}   [logo]    Path in /public.
  * @property {string}   [summary] One-line framing sentence.
  * @property {string[]} [highlights] Bullet points.
@@ -21,7 +21,7 @@ export const experience = [
     title: 'Software Engineer',
     org: 'MeanIT Software',
     url: 'https://meanitsoftware.com',
-    period: 'Jan 2021 — Present',
+    period: 'Since January 2021',
     logo: '/MeanIT.png',
     summary:
       'Open-source maintenance, technical writing and client consulting across the JavaScript stack.',
@@ -61,10 +61,10 @@ export const education = [
     title: 'B.S. in Computer Science',
     org: 'University of Miami',
     url: 'https://welcome.miami.edu',
-    period: 'Aug 2016 — May 2020',
+    period: 'August 2016 to May 2020',
     logo: '/University-Of-Miami-Symbol.png',
     summary:
-      'Computer science fundamentals — algorithms, systems and graphics — alongside game programming coursework.',
+      'Computer science fundamentals across algorithms, systems and graphics, alongside game programming coursework.',
     skills: ['Java', 'C', 'C#', 'Unity', 'Python', 'SQL', 'Linux'],
   },
 ]

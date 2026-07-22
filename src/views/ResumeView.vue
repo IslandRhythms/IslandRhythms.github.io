@@ -11,7 +11,7 @@ import { skillGroups } from '@/content/skills'
 import { projects } from '@/content/projects'
 import AppIcon from '@/components/AppIcon.vue'
 
-/** Featured plus anything currently live — the ones worth a recruiter's time. */
+/** Featured plus anything currently live: the ones worth a recruiter's time. */
 const highlights = projects.filter((p) => p.featured || p.status === 'live').slice(0, 5)
 
 onMounted(() => window.scrollTo(0, 0))
@@ -56,9 +56,9 @@ function shortUrl(href) {
         <ul class="contact">
           <li>{{ site.location }}</li>
           <li>
-            <a :href="`mailto:${site.email}`">{{ site.email }}</a>
+            <RouterLink to="/#contact">islandrhythms.github.io/#contact</RouterLink>
           </li>
-          <li v-for="social in site.socials.filter((s) => s.icon !== 'mail')" :key="social.label">
+          <li v-for="social in site.socials" :key="social.label">
             <a :href="social.href" target="_blank" rel="noopener noreferrer">
               {{ shortUrl(social.href) }}
             </a>

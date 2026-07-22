@@ -66,7 +66,7 @@ const bodyId = `project-body-${props.project.slug}`
         <div v-if="project.embed && expanded" class="embed">
           <iframe
             :src="project.embed"
-            :title="`${project.title} — playable embed`"
+            :title="`${project.title}, playable embed`"
             height="167"
             loading="lazy"
             frameborder="0"

@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { site } from '@/content/site'
 import { useTheme } from '@/composables/useTheme'
-import ShaderField from '@/components/ShaderField.vue'
+import WaveField from '@/components/WaveField.vue'
 import AppIcon from '@/components/AppIcon.vue'
 
 const { theme } = useTheme()
@@ -49,7 +49,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 
 <template>
   <section class="hero grain" aria-label="Introduction">
-    <ShaderField :theme="theme" />
+    <WaveField :theme="theme" />
     <div class="veil" aria-hidden="true" />
 
     <div
@@ -100,11 +100,6 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
         </div>
       </dl>
     </div>
-
-    <a href="#work" class="scroll-cue" aria-label="Scroll to work">
-      <span class="cue-line" aria-hidden="true" />
-      <span class="cue-text">Scroll</span>
-    </a>
   </section>
 </template>
 
@@ -228,9 +223,11 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
   max-width: 54rem;
 }
 
+/* auto-fit rather than a fixed count, so adding or removing a stat in site.js
+   reflows the row instead of leaving a hole in it. */
 @media (min-width: 780px) {
   .stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
   }
 }
 
@@ -264,60 +261,6 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 }
 
 /* ── Scroll cue ──────────────────────────────────────────────────────────── */
-/* Parked in the right gutter: the stat row is capped at 54rem inside a 78rem
-   shell, so this column stays clear at every width the cue is visible at. */
-.scroll-cue {
-  position: absolute;
-  bottom: 2rem;
-  right: clamp(1.25rem, 5vw, 3.5rem);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.625rem;
-  color: var(--text-faint);
-  animation: rise 1s var(--ease-out-expo) 1.2s both;
-}
-
-@media (min-height: 680px) and (min-width: 1100px) {
-  .scroll-cue {
-    display: flex;
-  }
-}
-
-.cue-line {
-  position: relative;
-  width: 1px;
-  height: 3rem;
-  background: var(--line-strong);
-  overflow: hidden;
-}
-
-.cue-line::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  height: 45%;
-  background: var(--accent);
-  animation: cue 2.4s var(--ease-out-expo) infinite;
-}
-
-@keyframes cue {
-  0% {
-    transform: translateY(-100%);
-  }
-  60%,
-  100% {
-    transform: translateY(300%);
-  }
-}
-
-.cue-text {
-  font-family: var(--font-mono);
-  font-size: 0.5625rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .word {
     transform: none;

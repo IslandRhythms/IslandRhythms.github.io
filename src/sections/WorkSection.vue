@@ -32,8 +32,8 @@ const filtered = computed(() =>
       <SectionHeading
         index="01"
         eyebrow="Selected Work"
-        title="Things I've built, broken and fixed."
-        lead="Much of my professional work sits behind NDAs, so what follows is the publicly shareable half — open-source maintenance, personal tools, and a few things made purely because they were fun."
+        title="Work I can actually show you."
+        lead="A lot of what I do professionally sits behind NDAs, so this is the half I can share: open-source maintenance, tools I built because I needed them, and a few things I made purely because they were fun."
       />
 
       <!-- Filters -->

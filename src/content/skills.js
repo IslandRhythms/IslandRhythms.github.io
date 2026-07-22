@@ -1,6 +1,6 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- * SKILLS — grouped capability list for the About section.
+ * SKILLS: grouped capability list for the About section.
  * Add a group or an item; the layout adapts on its own.
  * ─────────────────────────────────────────────────────────────────────────────
  */
