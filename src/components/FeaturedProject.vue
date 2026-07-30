@@ -8,9 +8,9 @@
  * (see `categories` in projects.js) and drives its edge, numeral, glow and
  * hover state from it via the `--cat` custom property.
  *
- * Deliberately a separate component from ProjectCard: this is an editorial
- * panel with a watermark numeral and no expand/collapse, while ProjectCard is a
- * compact grid tile with expandable detail.
+ * Deliberately a separate component from ProjectCard: this is an editorial panel
+ * with a watermark numeral, while ProjectCard is a compact grid tile. Both hide
+ * the project's full `description` behind the same Details toggle.
  */
 import { computed, ref } from 'vue'
 import AppIcon from './AppIcon.vue'
@@ -26,6 +26,18 @@ const props = defineProps({
 })
 
 const card = ref(null)
+const expanded = ref(false)
+
+const bodyId = `feature-body-${props.project.slug}`
+
+/**
+ * A demo project keeps its `project-<slug>` anchor on its Demos entry, where the
+ * playable embed is — so the showcase card takes a distinct id rather than
+ * duplicating one. Deep links from the ⌘K palette land on the demo either way.
+ */
+const anchorId = computed(() =>
+  props.project.demo ? `featured-${props.project.slug}` : `project-${props.project.slug}`,
+)
 
 /**
  * Cursor tracking for the spotlight: two style writes on a passive listener,
@@ -51,7 +63,7 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
 
 <template>
   <article
-    :id="`project-${project.slug}`"
+    :id="anchorId"
     ref="card"
     v-reveal="{ delay: (index % 3) * 90 }"
     class="feature panel"
@@ -77,6 +89,13 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
 
     <p class="blurb">{{ project.blurb }}</p>
 
+    <!-- Expandable detail, same grid-rows animation as ProjectCard. -->
+    <div class="detail" :class="{ 'is-open': expanded }">
+      <div class="detail-inner">
+        <p :id="bodyId" class="description">{{ project.description }}</p>
+      </div>
+    </div>
+
     <ul class="tech">
       <li v-for="item in project.tech" :key="item" class="chip">{{ item }}</li>
     </ul>
@@ -95,6 +114,17 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
         {{ link.label }}
         <AppIcon v-if="i === 0" name="arrow" :size="14" class="go" />
       </a>
+
+      <button
+        type="button"
+        class="more"
+        :aria-expanded="expanded"
+        :aria-controls="bodyId"
+        @click="expanded = !expanded"
+      >
+        {{ expanded ? 'Less' : 'Details' }}
+        <AppIcon name="chevron" :size="14" :class="['caret', { 'is-up': expanded }]" />
+      </button>
     </footer>
   </article>
 </template>
@@ -261,6 +291,28 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
   color: var(--text-muted);
 }
 
+/* Grid-based height animation — animates cleanly without measuring anything. */
+.detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.55s var(--ease-out-expo);
+}
+
+.detail.is-open {
+  grid-template-rows: 1fr;
+}
+
+.detail-inner {
+  overflow: hidden;
+}
+
+.description {
+  padding-top: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
 /* Pushed to the bottom so the chips and footer line up across the row however
    long each blurb runs. */
 .tech {
@@ -312,11 +364,44 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
   transform: translateX(4px);
 }
 
+/* Last in the footer and pushed to the far edge, so the primary link keeps the
+   emphasis and the toggle reads as the quieter of the two. */
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  margin-left: auto;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.25s ease;
+}
+
+.more:hover {
+  color: var(--text-strong);
+}
+
+.caret {
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.caret.is-up {
+  transform: rotate(180deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .feature,
   .edge,
   .watermark,
   .spotlight,
+  .detail,
+  .caret,
   .go {
     transition: none;
   }

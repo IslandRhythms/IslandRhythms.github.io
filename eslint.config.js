@@ -28,6 +28,7 @@ export default [
         IntersectionObserver: 'readonly',
         ResizeObserver: 'readonly',
         Float32Array: 'readonly',
+        URL: 'readonly',
         // Injected by Vite at build time — see vite.config.js
         __BUILD_DATE__: 'readonly',
       },

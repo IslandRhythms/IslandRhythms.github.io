@@ -32,7 +32,12 @@ export const site = {
    * both the header and the footer. (The longer pitch paragraph is `heroLead`.)
    */
   motto: 'Design · Code · Deliver',
-  /** Social share card. Swap for a 1200×630 PNG if you make a custom one. */
+  /**
+   * Social share card, root-relative. Substituted into og:image and
+   * twitter:image at build time, made absolute against `url` on the way in
+   * because a scraper won't resolve a relative path. Swap for a 1200×630 PNG if
+   * you make a custom one — the cards are wide, so a portrait gets cropped.
+   */
   ogImage: '/WebsiteProfilePic.png',
 
   /**
@@ -85,6 +90,11 @@ export const site = {
   /** Profile links. `icon` maps to a key in components/AppIcon.vue. */
   socials: [
     { label: 'GitHub', href: 'https://github.com/IslandRhythms', icon: 'github' },
+    {
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/theislandrhythm/',
+      icon: 'linkedin',
+    },
     {
       label: 'Steam',
       href: 'https://steamcommunity.com/profiles/76561198216752133/myworkshopfiles/',

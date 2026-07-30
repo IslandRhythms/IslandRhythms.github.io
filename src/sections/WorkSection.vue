@@ -11,11 +11,12 @@ const filter = ref('all')
 const realCategories = categories.filter((category) => category.id !== 'all')
 
 /**
- * Everything this section is allowed to show. Demos have their own section, so
- * they're excluded up front rather than in each list below — that way a project
- * flagged both `demo` and `featured` can't leak back in through the showcase.
+ * Everything the grid below is allowed to show. Demos have their own section, so
+ * they're excluded here — but not from the showcase, where a demo is free to
+ * hold its category's slot and appear in both places: a summary card up top, the
+ * thing itself further down.
  */
-const workProjects = computed(() => projects.filter((project) => !project.demo))
+const gridProjects = computed(() => projects.filter((project) => !project.demo))
 
 /**
  * The showcase: one featured project per category, in the order categories are
@@ -26,7 +27,7 @@ const workProjects = computed(() => projects.filter((project) => !project.demo))
 const showcase = computed(() =>
   realCategories
     .map((category) => {
-      const project = workProjects.value.find((p) => p.category === category.id && p.featured)
+      const project = projects.find((p) => p.category === category.id && p.featured)
       return project && { project, label: category.label, accent: category.accent }
     })
     .filter(Boolean),
@@ -42,7 +43,7 @@ const showcased = computed(() => new Set(showcase.value.map((entry) => entry.pro
  * within a rank.
  */
 const rest = computed(() =>
-  [...workProjects.value]
+  [...gridProjects.value]
     .filter((project) => !showcased.value.has(project.slug))
     .sort((a, b) => (a.status === 'archived') - (b.status === 'archived')),
 )

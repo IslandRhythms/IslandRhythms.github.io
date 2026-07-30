@@ -260,7 +260,8 @@ onBeforeUnmount(() => {
 }
 
 .fallback {
-  background: radial-gradient(70% 50% at 78% 50%, var(--glow-accent), transparent 68%),
+  background:
+    radial-gradient(70% 50% at 78% 50%, var(--glow-accent), transparent 68%),
     linear-gradient(160deg, var(--bg), var(--bg-elevated));
 }
 </style>
