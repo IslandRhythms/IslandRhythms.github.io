@@ -5,6 +5,7 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
 import { site } from './src/content/site.js'
+import { education } from './src/content/experience.js'
 
 /**
  * Identity strings index.html needs before any JavaScript runs.
@@ -15,6 +16,11 @@ import { site } from './src/content/site.js'
  * site.js the single source of truth while the shipped document stays static and
  * crawlable.
  */
+const ORIGIN = site.url.replace(/\/$/, '')
+
+/** Newest first, so the most recent degree is the one the schema claims. */
+const [school] = education
+
 const HTML_TOKENS = {
   NAME: site.name,
   ROLE: site.role,
@@ -22,6 +28,23 @@ const HTML_TOKENS = {
   DESCRIPTION: site.seo.description,
   SHARE_DESCRIPTION: site.seo.shareDescription,
   SHARE_DESCRIPTION_SHORT: site.seo.shareDescriptionShort,
+  // Absolute, because a share card scraper won't resolve a root-relative path.
+  OG_IMAGE: `${ORIGIN}${site.ogImage}`,
+  // The portrait, for the JSON-LD Person. Deliberately not OG_IMAGE: the share
+  // card can become a designed banner, while `image` here has to stay a likeness.
+  AVATAR: `${ORIGIN}${site.avatar}`,
+  SCHOOL: school.org,
+  SCHOOL_URL: school.url,
+}
+
+/**
+ * JSON-LD values that are arrays rather than strings, so they can't ride the
+ * %SITE_*% path — that substitutes inside a string literal, and an array isn't
+ * one. index.html writes each as a one-element array holding the marker, which
+ * keeps the block valid JSON for Prettier, and the real list lands here.
+ */
+const JSON_LIST_TOKENS = {
+  SAME_AS: site.socials.map((social) => social.href),
 }
 
 function htmlIdentity() {
@@ -44,12 +67,40 @@ function htmlIdentity() {
           }
         }
 
-        return html.replace(/%SITE_([A-Z_]+)%/g, (match, key) => {
+        // JSON.stringify escapes quotes, so the hazard for a list is different:
+        // a literal `</script` inside one would end the ld+json block early.
+        for (const [key, value] of Object.entries(JSON_LIST_TOKENS)) {
+          const valid =
+            Array.isArray(value) &&
+            value.length > 0 &&
+            value.every((item) => typeof item === 'string' && !item.includes('<'))
+          if (!valid) {
+            throw new Error(`site.js: ${key} must be a non-empty array of strings with no "<"`)
+          }
+        }
+
+        const withLists = html.replace(/\["%JSON_([A-Z_]+)%"\]/g, (match, key) => {
+          if (!(key in JSON_LIST_TOKENS)) {
+            throw new Error(`index.html references unknown token ${match}`)
+          }
+          return JSON.stringify(JSON_LIST_TOKENS[key])
+        })
+
+        const substituted = withLists.replace(/%SITE_([A-Z_]+)%/g, (match, key) => {
           if (!(key in HTML_TOKENS)) {
             throw new Error(`index.html references unknown token ${match}`)
           }
           return HTML_TOKENS[key]
         })
+
+        // A list marker written anywhere but inside `["..."]` matches neither
+        // pass above, and would otherwise ship as literal text.
+        const stray = substituted.match(/%JSON_[A-Z_]+%/)
+        if (stray) {
+          throw new Error(`index.html: ${stray[0]} must be written as ["${stray[0]}"]`)
+        }
+
+        return substituted
       },
     },
   }
@@ -96,11 +147,9 @@ function buildRobots(origin) {
  * what actually ships.
  */
 function seoFiles() {
-  const origin = site.url.replace(/\/$/, '')
-
   const FILES = {
-    '/sitemap.xml': { body: buildSitemap(origin), type: 'application/xml' },
-    '/robots.txt': { body: buildRobots(origin), type: 'text/plain' },
+    '/sitemap.xml': { body: buildSitemap(ORIGIN), type: 'application/xml' },
+    '/robots.txt': { body: buildRobots(ORIGIN), type: 'text/plain' },
   }
 
   return {

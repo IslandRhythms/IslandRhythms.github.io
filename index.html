@@ -26,14 +26,14 @@
     <meta property="og:title" content="%SITE_NAME%, %SITE_ROLE%" />
     <meta property="og:description" content="%SITE_SHARE_DESCRIPTION%" />
     <meta property="og:url" content="%SITE_URL%/" />
-    <meta property="og:image" content="%SITE_URL%/WebsiteProfilePic.png" />
+    <meta property="og:image" content="%SITE_OG_IMAGE%" />
     <meta property="og:image:alt" content="Portrait of %SITE_NAME%" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="%SITE_NAME%, %SITE_ROLE%" />
     <meta name="twitter:description" content="%SITE_SHARE_DESCRIPTION_SHORT%" />
-    <meta name="twitter:image" content="%SITE_URL%/WebsiteProfilePic.png" />
+    <meta name="twitter:image" content="%SITE_OG_IMAGE%" />
 
     <!--
       Theme bootstrap. This runs before the first paint so a returning visitor
@@ -71,14 +71,18 @@
       })()
     </script>
 
-    <!-- Structured data: helps search results show the right thing. -->
+    <!--
+      Structured data: helps search results show the right thing. Kept as valid
+      JSON so Prettier can format it, which is why `sameAs` is a marker inside an
+      array rather than a bare token — see `html-identity` in vite.config.js.
+    -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "%SITE_NAME%",
         "url": "%SITE_URL%/",
-        "image": "%SITE_URL%/WebsiteProfilePic.png",
+        "image": "%SITE_AVATAR%",
         "jobTitle": "%SITE_ROLE%",
         "address": {
           "@type": "PostalAddress",
@@ -88,16 +92,18 @@
         },
         "alumniOf": {
           "@type": "CollegeOrUniversity",
-          "name": "University of Miami"
+          "name": "%SITE_SCHOOL%",
+          "url": "%SITE_SCHOOL_URL%"
         },
         "knowsAbout": ["JavaScript", "Vue.js", "Node.js", "MongoDB", "Mongoose.js", "Open Source"],
-        "sameAs": [
-          "https://github.com/IslandRhythms",
-          "https://theislandrhythm.itch.io",
-          "https://steamcommunity.com/profiles/76561198216752133"
-        ]
+        "sameAs": ["%JSON_SAME_AS%"]
       }
     </script>
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="f1b9e8fb-e85e-4080-ad50-e555acb18d4d"
+    ></script>
   </head>
 
   <body>
