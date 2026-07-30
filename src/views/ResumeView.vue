@@ -25,7 +25,6 @@ onMounted(() => window.scrollTo(0, 0))
 function printPage() {
   window.print()
 }
-
 </script>
 
 <template>
