@@ -91,6 +91,11 @@ export const site = {
   socials: [
     { label: 'GitHub', href: 'https://github.com/IslandRhythms', icon: 'github' },
     {
+      label: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/theislandrhythm/',
+      icon: 'linkedin',
+    },
+    {
       label: 'Steam',
       href: 'https://steamcommunity.com/profiles/76561198216752133/myworkshopfiles/',
       icon: 'steam',

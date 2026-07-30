@@ -26,17 +26,6 @@ function printPage() {
   window.print()
 }
 
-/**
- * Profile URLs shown in the masthead. Steam's is long enough to force the
- * header into a stacked layout, so keep host plus one path segment and fall
- * back to the bare host when even that runs long.
- */
-function shortUrl(href) {
-  const bare = href.replace(/^https?:\/\//, '').replace(/\/$/, '')
-  const [host, first] = bare.split('/')
-  const withSegment = first ? `${host}/${first}` : host
-  return withSegment.length > 32 ? host : withSegment
-}
 </script>
 
 <template>
@@ -66,7 +55,7 @@ function shortUrl(href) {
           </li>
           <li v-for="social in site.socials" :key="social.label">
             <a :href="social.href" target="_blank" rel="noopener noreferrer">
-              {{ shortUrl(social.href) }}
+              {{ social.label }}
             </a>
           </li>
         </ul>
