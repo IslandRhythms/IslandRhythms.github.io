@@ -21,18 +21,23 @@
  *                                 category — the showcase is a one-per-category
  *                                 tour, so a second flag in the same category is
  *                                 ignored and the project falls back to the grid
- *                                 below. Order follows `categories`.
+ *                                 below. Order follows `categories`. Works on a
+ *                                 `demo` project too; see `demo`.
  * @property {string}  [embed]     Optional iframe URL (e.g. an itch.io widget).
  * @property {boolean} [resume]    Set false to keep a project out of Selected
  *                                 Projects on the printable résumé. For work
  *                                 already covered by a role's bullet points,
  *                                 where listing it again just costs a line.
  * @property {boolean} [demo]      Moves this project into the Demos section and
- *                                 OUT of Work, so nothing appears on the page
- *                                 twice. Renders `embed` inline when there is
- *                                 one, and falls back to a big "try it" link
- *                                 card when there isn't — so a demo without an
- *                                 embed still has somewhere to go.
+ *                                 out of the Work grid, so nothing appears
+ *                                 twice down there. Renders `embed` inline when
+ *                                 there is one, and falls back to a big "try
+ *                                 it" link card when there isn't — so a demo
+ *                                 without an embed still has somewhere to go.
+ *                                 Combine with `featured` to also hold that
+ *                                 category's showcase slot: the card up top
+ *                                 summarises it, the Demos section is where you
+ *                                 play it.
  *
  * @typedef  {object}  Link
  * @property {string}  label
@@ -197,7 +202,6 @@ export const projects = [
       { label: 'Repos', href: 'https://github.com/IslandRhythms?tab=repositories', kind: 'code' },
     ],
     status: 'live',
-    featured: true,
   },
   {
     slug: 'grim-shredder',
@@ -220,6 +224,7 @@ export const projects = [
     embed: 'https://itch.io/embed/637364',
     status: 'live',
     demo: true,
+    featured: true,
   },
   {
     slug: 'unit-converter',

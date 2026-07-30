@@ -140,10 +140,19 @@ export default defineConfig({
   build: {
     target: 'es2020',
     cssTarget: 'chrome100',
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          vendor: ['vue', 'vue-router'],
+        /**
+         * Vue and the router in their own chunk, so a copy change to the site
+         * doesn't invalidate the framework's cache entry. Rolldown replaced
+         * `manualChunks` here: the object form it used to take is gone, and it
+         * matches on module ids rather than package names — hence the separator
+         * class, since ids are absolute paths.
+         */
+        codeSplitting: {
+          groups: [
+            { name: 'vendor', test: /node_modules[\\/](@vue[\\/]|vue[\\/]|vue-router[\\/])/ },
+          ],
         },
       },
     },

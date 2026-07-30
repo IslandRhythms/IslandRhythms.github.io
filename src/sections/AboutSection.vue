@@ -156,7 +156,8 @@ const timeline = [
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(60% 50% at 88% 8%, var(--glow-accent), transparent 70%),
+  background:
+    radial-gradient(60% 50% at 88% 8%, var(--glow-accent), transparent 70%),
     radial-gradient(50% 40% at 4% 70%, var(--glow-gold), transparent 70%);
   opacity: 0.5;
 }
