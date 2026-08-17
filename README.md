@@ -49,7 +49,7 @@ never need to open a component to update the site.**
 | [`experience.js`](src/content/experience.js) | About timeline, résumé experience + open source |
 | [`skills.js`](src/content/skills.js) | Toolkit grid, résumé skills block |
 
-### The project flags, because I always forget which does what
+### The project flags
 
 ```js
 featured: true    // into the Work showcase — ONE per category, extras silently fall
@@ -69,7 +69,7 @@ identity:
 
 ---
 
-## Traps I've already hit
+## Known Quirks
 
 
 
