@@ -199,6 +199,44 @@ export const projects = [
     featured: true,
   },
   {
+    slug: 'careerkit',
+    title: 'CareerKit',
+    category: 'desktop',
+    year: '2026',
+    blurb:
+      'A desktop job-hunting app: a kanban application tracker, a master résumé, and job postings ranked by how well they fit.',
+    description:
+      'Applications move through a drag-and-drop pipeline from Saved to Offer, each with its own interview stages, dates and notes. The master résumé is a bank of every skill, role and project, toggled on or off a live-previewed document that prints to PDF, and existing PDF or Word résumés can be imported into it. Discover pulls postings from the Remotive and Jobicy APIs plus followed Greenhouse and Lever boards, then scores each one 0 to 100 against my preferences and résumé. Everything is stored locally in SQLite.',
+    tech: ['Electron', 'Electron-Forge', 'React', 'TypeScript', 'SQLite', 'Bulma'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/CareerKit', kind: 'code' }],
+    status: 'live',
+  },
+  {
+    slug: 'cauldron',
+    title: 'Cauldron',
+    category: 'desktop',
+    year: '2026',
+    blurb:
+      'A desktop workshop for homebrew tabletop RPG content: characters, creatures, classes, items, locations and loose ideas.',
+    description:
+      'A local grimoire for game masters. Each collection, from characters and NPCs to classes, subclasses, abilities and items, is built from editable blocks for stats, features and notes, with Markdown preview and export. All data stays on the machine in a SQLite database, reached from the React renderer only through a context-isolated preload bridge.',
+    tech: ['Electron', 'Electron-Forge', 'React', 'TypeScript', 'Tailwind CSS', 'SQLite'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Cauldron', kind: 'code' }],
+    status: 'live',
+  },
+  {
+    slug: 'blobvault',
+    title: 'BlobVault',
+    category: 'desktop',
+    year: '2026',
+    blurb: 'A local, encrypted password manager written in Rust, with no cloud and no account.',
+    description:
+      'The vault is encrypted on disk with an Argon2-derived key and XChaCha20-Poly1305, and unlocked with a single master password. It handles adding, editing and searching accounts, copying credentials to the clipboard, and generating random passwords. Sensitive values are zeroed from memory once they are no longer needed, and saves are atomic, so a crash mid-write can’t corrupt the vault.',
+    tech: ['Rust', 'egui', 'Argon2', 'XChaCha20-Poly1305'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/blob', kind: 'code' }],
+    status: 'live',
+  },
+  {
     slug: 'mykeysig',
     title: 'MyKeySig',
     category: 'web',
