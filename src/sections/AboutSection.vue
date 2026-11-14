@@ -426,17 +426,21 @@ const timeline = [
   margin-bottom: 1.5rem;
 }
 
+/* The 1px gaps over a --line background draw the dividers. Flex rather than
+   grid so the groups on a short last row stretch to fill it: a grid would leave
+   empty cells there, and those show as blank grey blocks. */
 .cap-grid {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
   border-radius: 1.25rem;
   overflow: hidden;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
 }
 
 .cap-group {
+  flex: 1 1 min(100%, 14rem);
   background: var(--bg);
   padding: 1.5rem 1.375rem;
 }

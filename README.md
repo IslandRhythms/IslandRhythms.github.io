@@ -49,13 +49,13 @@ never need to open a component to update the site.**
 | [`experience.js`](src/content/experience.js) | About timeline, résumé experience + open source |
 | [`skills.js`](src/content/skills.js) | Toolkit grid, résumé skills block |
 
-### The project flags, because I always forget which does what
+### The project flags
 
 ```js
 featured: true    // into the Work showcase — ONE per category, extras silently fall
                   // through to the grid below
 demo: true        // out of Work entirely, into the Demos section
-resume: false     // off the résumé's Selected Projects
+resume: false     // off the résumé's Projects section
 embed: 'https://itch.io/embed/637364'   // iframe, renders inside the Demos frame
 status: 'live'    // 'live' | 'archived'. There is no 'ongoing' any more.
 ```
@@ -69,7 +69,7 @@ identity:
 
 ---
 
-## Traps I've already hit
+## Known Quirks
 
 
 

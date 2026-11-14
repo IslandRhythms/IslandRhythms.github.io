@@ -39,7 +39,7 @@ const commands = computed(() => {
     id: 'nav-resume',
     group: 'Navigate',
     label: 'Résumé',
-    hint: 'Printable one-page résumé',
+    hint: 'Printable résumé',
     icon: 'print',
     run: () => router.push('/resume'),
   })

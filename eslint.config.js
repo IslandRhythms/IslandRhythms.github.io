@@ -31,6 +31,7 @@ export default [
         URL: 'readonly',
         // Injected by Vite at build time — see vite.config.js
         __BUILD_DATE__: 'readonly',
+        __APP_VERSION__: 'readonly',
       },
     },
   },

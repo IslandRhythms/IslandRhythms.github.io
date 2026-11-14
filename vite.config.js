@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
+import pkg from './package.json' with { type: 'json' }
 import { site } from './src/content/site.js'
 import { education } from './src/content/experience.js'
 
@@ -180,6 +181,8 @@ export default defineConfig({
   define: {
     // Real deploy date, stamped at build time and shown in the footer.
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
+    // Release version from package.json, shown in the header.
+    __APP_VERSION__: JSON.stringify(pkg.version),
   },
   resolve: {
     alias: {

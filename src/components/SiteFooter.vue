@@ -5,7 +5,6 @@ import AppIcon from './AppIcon.vue'
 import WordMark from './WordMark.vue'
 
 const year = new Date().getFullYear()
-
 /**
  * Build stamp injected by Vite at compile time (see vite.config.js), so the
  * footer date is always the real deploy date instead of something hand-edited.

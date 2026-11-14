@@ -121,6 +121,17 @@ const bodyId = `project-body-${props.project.slug}`
     border-color 0.4s ease;
 }
 
+/* Shares row tracks with the rest of its grid row, so the chips and footer line
+   up across cards even when one footer wraps and another doesn't. The span has
+   to match the number of in-flow children (card-top through footer). */
+@supports (grid-template-rows: subgrid) {
+  .card {
+    display: grid;
+    grid-row: span 6;
+    grid-template-rows: subgrid;
+  }
+}
+
 .card:hover {
   transform: translateY(-4px);
   border-color: var(--line-strong);
@@ -232,21 +243,38 @@ const bodyId = `project-body-${props.project.slug}`
   display: block;
 }
 
+/* A fixed block of three chip rows, filled from the top, so the chips start on
+   the same line in every card whether a project lists one technology or five.
+   A chip row is 11px type at 1.5 line height, plus padding and border. */
 .tech {
+  --chip-row: 1.65625rem;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 0.375rem;
   margin-top: auto;
   padding-top: 0.5rem;
+  min-height: calc(0.5rem + 3 * var(--chip-row) + 2 * 0.375rem);
   list-style: none;
 }
 
+/* The subgrid already lines the rows up, so the chip block no longer needs
+   pushing to the bottom of its track. */
+@supports (grid-template-rows: subgrid) {
+  .tech {
+    margin-top: 0;
+  }
+}
+
+/* Two fixed columns: the Details toggle pinned top left, links top right with
+   room for two lines. Neither can push the other onto a new row. */
 .card-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  --link-line: 1.25rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
   gap: 0.75rem;
+  min-height: calc(1rem + 2 * var(--link-line) + 0.5rem);
   padding-top: 1rem;
   border-top: 1px solid var(--line);
 }
@@ -255,6 +283,7 @@ const bodyId = `project-body-${props.project.slug}`
   display: inline-flex;
   align-items: center;
   gap: 0.3125rem;
+  min-height: var(--link-line);
   background: none;
   border: 0;
   padding: 0;
@@ -277,13 +306,15 @@ const bodyId = `project-body-${props.project.slug}`
 .links {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  justify-content: flex-end;
+  gap: 0.5rem 1rem;
 }
 
 .card-link {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+  min-height: var(--link-line);
   font-size: 0.8125rem;
   color: var(--text-muted);
   transition: color 0.25s ease;

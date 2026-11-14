@@ -54,6 +54,9 @@ watch(menuOpen, (open) => {
 })
 onBeforeUnmount(() => (document.body.style.overflow = ''))
 
+/** Release version from package.json, injected by Vite (see vite.config.js). */
+const version = __APP_VERSION__
+
 const onLanding = computed(() => route.name === 'home')
 const shortcut = computed(() => (isMac.value ? '⌘K' : 'Ctrl K'))
 
@@ -79,9 +82,12 @@ function linkTo(id) {
     <div class="shell bar">
       <!-- Full DCD lockup: mark plus the "Design · Code · Deliver" tagline.
            The tagline hides on narrow screens where the nav needs the room. -->
-      <RouterLink to="/" class="brand" aria-label="Home">
-        <WordMark compact />
-      </RouterLink>
+      <div class="brand-group">
+        <RouterLink to="/" class="brand" aria-label="Home">
+          <WordMark compact />
+        </RouterLink>
+        <span class="version" :title="`Site version ${version}`">v{{ version }}</span>
+      </div>
 
       <nav class="nav" aria-label="Primary">
         <RouterLink
@@ -200,9 +206,26 @@ function linkTo(id) {
   height: 4.5rem;
 }
 
+.brand-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
+}
+
+.version {
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  white-space: nowrap;
 }
 
 /* Below 640px the nav actions need the width more than the tagline does. */
