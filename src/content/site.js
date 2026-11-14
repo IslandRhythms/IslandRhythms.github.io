@@ -70,11 +70,7 @@ export const site = {
     highlight: 'fast, resilient',
   },
 
-  /**
-   * The About section renders every paragraph; the résumé page prints only the
-   * first, so bio[0] has to stand alone as a summary — lead with the stack and
-   * the numbers, and leave the colour for bio[1].
-   */
+  /** Paragraphs for the About section, in order. */
   bio: [
     `I'm a full-stack engineer with ${yearsShipping} years shipping and supporting production web applications in Vue and Nuxt, Node, Express and MongoDB. Most of that time has run alongside open source: building features with the lead maintainer of Mongoose.js for a library downloaded over a million times a week, and working through more than a thousand bug reports against it.`,
     'Day to day that means the whole stack for client teams — REST APIs and MongoDB schemas, integrations like Stripe, Twilio and Cloudinary, and internal developer tooling that makes debugging someone else’s data less miserable. Outside of it I’ve shipped an iOS app to the App Store, built a food-recall tracker on AWS, and keep a Discord bot running on a Raspberry Pi in my apartment, which is a standing reminder that software has to survive without you watching it.',

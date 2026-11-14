@@ -26,6 +26,9 @@ function displayUrl(href) {
   return href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
 }
 
+/** Where to ask for the one-page PDF, which isn't published on the site. */
+const linkedIn = site.socials.find((social) => social.icon === 'linkedin')
+
 onMounted(() => window.scrollTo(0, 0))
 
 function printPage() {
@@ -40,10 +43,22 @@ function printPage() {
         <AppIcon name="arrow" :size="15" class="flip" />
         Back to site
       </RouterLink>
-      <button type="button" class="btn btn-primary print-btn" @click="printPage">
-        <AppIcon name="print" :size="16" />
-        Print / Save as PDF
-      </button>
+      <div class="toolbar-actions">
+        <a
+          v-if="linkedIn"
+          :href="linkedIn.href"
+          class="btn btn-ghost"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <AppIcon name="linkedin" :size="16" />
+          Message me on LinkedIn for a one-page PDF
+        </a>
+        <button type="button" class="btn btn-primary print-btn" @click="printPage">
+          <AppIcon name="print" :size="16" />
+          Print / Save as PDF
+        </button>
+      </div>
     </div>
 
     <div class="sheet">
@@ -59,14 +74,18 @@ function printPage() {
             <RouterLink to="/#contact">islandrhythms.github.io/#contact</RouterLink>
           </li>
           <li v-for="social in site.socials" :key="social.label">
-            <a :href="social.href" target="_blank" rel="noopener noreferrer">
-              {{ displayUrl(social.href) }}
+            <a
+              :href="social.href"
+              :data-url="displayUrl(social.href)"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <AppIcon :name="social.icon" :size="13" />
+              {{ social.label }}
             </a>
           </li>
         </ul>
       </header>
-
-      <p class="summary">{{ site.bio[0] }}</p>
 
       <!-- Experience -->
       <section class="block">
@@ -85,7 +104,9 @@ function printPage() {
           <ul class="bullets">
             <li v-for="point in role.highlights" :key="point">{{ point }}</li>
           </ul>
-          <p v-if="role.skills" class="stack">{{ role.skills.join(' · ') }}</p>
+          <ul v-if="role.skills" class="tags">
+            <li v-for="skill in role.skills" :key="skill" class="chip">{{ skill }}</li>
+          </ul>
         </div>
       </section>
 
@@ -128,8 +149,10 @@ function printPage() {
             <h3>{{ project.title }}</h3>
             <span class="period">{{ project.year }}</span>
           </div>
-          <p class="stack">{{ project.tech.join(' · ') }}</p>
           <p class="line">{{ project.description }}</p>
+          <ul class="tags">
+            <li v-for="item in project.tech" :key="item" class="chip">{{ item }}</li>
+          </ul>
           <p v-if="project.links.length" class="refs">
             <a
               v-for="link in project.links"
@@ -158,7 +181,9 @@ function printPage() {
             <span class="period">{{ entry.period }}</span>
           </div>
           <p v-if="entry.summary" class="line">{{ entry.summary }}</p>
-          <p v-if="entry.skills" class="stack">{{ entry.skills.join(' · ') }}</p>
+          <ul v-if="entry.skills" class="tags">
+            <li v-for="skill in entry.skills" :key="skill" class="chip">{{ skill }}</li>
+          </ul>
         </div>
       </section>
 
@@ -192,6 +217,12 @@ function printPage() {
   padding-inline: clamp(1.25rem, 5vw, 2rem);
 }
 
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 .back {
   display: inline-flex;
   align-items: center;
@@ -219,13 +250,21 @@ function printPage() {
 }
 
 /* ── Masthead ────────────────────────────────────────────────────────────── */
+/* Name on the left, contact column on the right. Stacks on narrow screens, with
+   the contact column dropping under the name and aligning left with it. */
 .masthead {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
   padding-bottom: 1.5rem;
   border-bottom: 2px solid var(--line-strong);
+}
+
+@media (min-width: 640px), print {
+  .masthead {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+  }
 }
 
 .masthead h1 {
@@ -244,22 +283,43 @@ function printPage() {
 }
 
 .contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+  min-width: 0;
   list-style: none;
-  text-align: right;
   font-size: 0.8125rem;
   line-height: 1.7;
   color: var(--text-muted);
+}
+
+@media (min-width: 640px), print {
+  .contact {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+.contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: color 0.25s ease;
 }
 
 .contact a:hover {
   color: var(--accent);
 }
 
-.summary {
-  margin-top: 1.5rem;
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: var(--text-muted);
+/* On paper a bare "GitHub" is a dead end, so print the short URL after it.
+   Allowed to wrap, so a long one breaks onto a second line instead of running
+   off the page. */
+@media print {
+  .contact a::after {
+    content: ' · ' attr(data-url);
+    overflow-wrap: anywhere;
+  }
 }
 
 /* ── Blocks ──────────────────────────────────────────────────────────────── */
@@ -307,17 +367,13 @@ a.org:hover {
   color: var(--accent);
 }
 
-/* Technologies for an entry, one monospace line of them. */
-.stack {
-  margin-top: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  line-height: 1.6;
-  color: var(--text-faint);
-}
-
-.item-head + .stack {
-  margin-top: 0.125rem;
+/* Technologies for an entry, as the same chips the project cards use. */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3125rem;
+  margin-top: 0.625rem;
+  list-style: none;
 }
 
 .period {
@@ -416,7 +472,6 @@ a.org:hover {
     color: #000 !important;
   }
 
-  .summary,
   .bullets li,
   .line,
   .org,
@@ -425,8 +480,11 @@ a.org:hover {
     color: #333 !important;
   }
 
-  .stack {
-    color: #555 !important;
+  /* Outlined only: a tinted fill wastes ink and can drop out entirely. */
+  .tags .chip {
+    background: none !important;
+    border-color: #bbb !important;
+    color: #333 !important;
   }
 }
 </style>
