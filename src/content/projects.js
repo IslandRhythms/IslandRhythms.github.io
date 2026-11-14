@@ -24,10 +24,12 @@
  *                                 below. Order follows `categories`. Works on a
  *                                 `demo` project too; see `demo`.
  * @property {string}  [embed]     Optional iframe URL (e.g. an itch.io widget).
- * @property {boolean} [resume]    Set false to keep a project out of Selected
- *                                 Projects on the printable résumé. For work
- *                                 already covered by a role's bullet points,
- *                                 where listing it again just costs a line.
+ * @property {number}  [embedHeight] Iframe height in pixels. Defaults to 167,
+ *                                 the height of an itch.io widget.
+ * @property {boolean} [resume]    Set false to keep a project out of Projects
+ *                                 on the printable résumé. For work already
+ *                                 covered by a role or the Open Source section,
+ *                                 where listing it again just repeats it.
  * @property {boolean} [demo]      Moves this project into the Demos section and
  *                                 out of the Work grid, so nothing appears
  *                                 twice down there. Renders `embed` inline when
@@ -90,9 +92,14 @@ export const projects = [
     description:
       'Working alongside the lead maintainer, I shipped new features and release enhancements for Mongoose.js and investigated more than 1,000 bug reports against it. The work spanned reproducing subtle schema and query edge cases, writing regression tests, and keeping a decade-old API stable for an enormous install base.',
     tech: ['Node.js', 'MongoDB', 'Mocha.js', 'Open Source'],
-    links: [{ label: 'mongoosejs.com', href: 'https://mongoosejs.com', kind: 'live' }],
+    links: [
+      { label: 'mongoosejs.com', href: 'https://mongoosejs.com', kind: 'live' },
+      { label: 'Source', href: 'https://github.com/Automattic/mongoose', kind: 'code' },
+    ],
     status: 'live',
     featured: true,
+    // Already covered by the Open Source section on the résumé.
+    resume: false,
   },
   {
     slug: 'masteringjs',
@@ -110,6 +117,61 @@ export const projects = [
     resume: false,
   },
   {
+    slug: 'sweetstash',
+    title: 'SweetStash',
+    category: 'mobile',
+    year: '2026',
+    blurb:
+      'An iOS app for planning and tracking a trick-or-treating route, live on the App Store since October 2026.',
+    description:
+      'Built in React Native and Expo, and owned end to end: interface, navigation, state management, and live location and mapping. It helps kids and parents plan a route on Halloween night and keep track of the haul along the way. Cleared Apple’s App Store review and launched publicly in October 2026.',
+    tech: ['React Native', 'Expo', 'iOS'],
+    links: [
+      {
+        label: 'App Store',
+        href: 'https://apps.apple.com/us/app/sweetstash/id6760588951',
+        kind: 'store',
+      },
+      { label: 'Source', href: 'https://github.com/IslandRhythms/SweetStash', kind: 'code' },
+    ],
+    status: 'live',
+    featured: true,
+  },
+  {
+    slug: 'fat',
+    title: 'FAT (Food Advisory Tracker)',
+    category: 'web',
+    year: '2026',
+    blurb:
+      'Aggregates food recalls and advisories from the CDC, FDA and USDA onto one interactive map of the United States.',
+    description:
+      'FAT pulls recall and safety-alert data from openFDA, the USDA FSIS recall API and the CDC food safety feed, normalizes it into one PostgreSQL table, and shades each state by how many recalls reach it. The front end is React and TypeScript on Vite with Tailwind CSS; the back end is Node.js and Express on PostgreSQL through Supabase, containerized with Docker. In production it is served through AWS CloudFront, with scheduled Lambda jobs keeping each source in sync. It also ships an embeddable widget, which is what is running here. Visit the site to see the full interactive map.',
+    tech: [
+      'React',
+      'TypeScript',
+      'Vite',
+      'Tailwind CSS',
+      'Node.js',
+      'Express.js',
+      'PostgreSQL',
+      'Supabase',
+      'Docker',
+      'AWS',
+    ],
+    links: [
+      {
+        label: 'Visit the site to see the map',
+        href: 'https://d22l2w5wpmbt0j.cloudfront.net/',
+        kind: 'live',
+      },
+    ],
+    embed: 'https://d22l2w5wpmbt0j.cloudfront.net/embed',
+    embedHeight: 560,
+    status: 'live',
+    demo: true,
+    featured: true,
+  },
+  {
     slug: 'beat-bot',
     title: 'Beat-Bot',
     category: 'software',
@@ -120,20 +182,6 @@ export const projects = [
       'Built for my own server and then adopted by friends’ communities. Beat-Bot spans games, utility commands, learning tools and music playback, backed by MongoDB for per-guild state. It runs on a Raspberry Pi in my apartment, which has taught me a lot about writing software that has to survive unattended.',
     tech: ['Node.js', 'MongoDB', 'Discord.js', 'Raspberry Pi'],
     links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Beat-Bot', kind: 'code' }],
-    status: 'live',
-    featured: true,
-  },
-  {
-    slug: 'sweetstash',
-    title: 'SweetStash',
-    category: 'mobile',
-    year: '2026',
-    blurb:
-      'An iOS app for planning and tracking a trick-or-treating route, through App Store review and scheduled for October 2026.',
-    description:
-      'Built in React Native and Expo, and owned end to end: interface, navigation, state management, and live location and mapping. It helps kids and parents plan a route on Halloween night and keep track of the haul along the way. Cleared Apple’s App Store review, with public release set for October 2026.',
-    tech: ['React Native', 'Expo', 'iOS'],
-    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/SweetStash', kind: 'code' }],
     status: 'live',
     featured: true,
   },
@@ -149,6 +197,44 @@ export const projects = [
     links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Fundlog', kind: 'code' }],
     status: 'live',
     featured: true,
+  },
+  {
+    slug: 'careerkit',
+    title: 'CareerKit',
+    category: 'desktop',
+    year: '2026',
+    blurb:
+      'A desktop job-hunting app: a kanban application tracker, a master résumé, and job postings ranked by how well they fit.',
+    description:
+      'Applications move through a drag-and-drop pipeline from Saved to Offer, each with its own interview stages, dates and notes. The master résumé is a bank of every skill, role and project, toggled on or off a live-previewed document that prints to PDF, and existing PDF or Word résumés can be imported into it. Discover pulls postings from the Remotive and Jobicy APIs plus followed Greenhouse and Lever boards, then scores each one 0 to 100 against my preferences and résumé. Everything is stored locally in SQLite.',
+    tech: ['Electron', 'Electron-Forge', 'React', 'TypeScript', 'SQLite', 'Bulma'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/CareerKit', kind: 'code' }],
+    status: 'live',
+  },
+  {
+    slug: 'cauldron',
+    title: 'Cauldron',
+    category: 'desktop',
+    year: '2026',
+    blurb:
+      'A desktop workshop for homebrew tabletop RPG content: characters, creatures, classes, items, locations and loose ideas.',
+    description:
+      'A local grimoire for game masters. Each collection, from characters and NPCs to classes, subclasses, abilities and items, is built from editable blocks for stats, features and notes, with Markdown preview and export. All data stays on the machine in a SQLite database, reached from the React renderer only through a context-isolated preload bridge.',
+    tech: ['Electron', 'Electron-Forge', 'React', 'TypeScript', 'Tailwind CSS', 'SQLite'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/Cauldron', kind: 'code' }],
+    status: 'live',
+  },
+  {
+    slug: 'blobvault',
+    title: 'BlobVault',
+    category: 'desktop',
+    year: '2026',
+    blurb: 'A local, encrypted password manager written in Rust, with no cloud and no account.',
+    description:
+      'The vault is encrypted on disk with an Argon2-derived key and XChaCha20-Poly1305, and unlocked with a single master password. It handles adding, editing and searching accounts, copying credentials to the clipboard, and generating random passwords. Sensitive values are zeroed from memory once they are no longer needed, and saves are atomic, so a crash mid-write can’t corrupt the vault.',
+    tech: ['Rust', 'egui', 'Argon2', 'XChaCha20-Poly1305'],
+    links: [{ label: 'Source', href: 'https://github.com/IslandRhythms/blob', kind: 'code' }],
+    status: 'live',
   },
   {
     slug: 'mykeysig',
@@ -181,7 +267,6 @@ export const projects = [
       { label: 'You’re on it', href: 'https://islandrhythms.github.io/', kind: 'live' },
     ],
     status: 'live',
-    featured: true,
   },
   {
     slug: 'xcom-2-mods',
