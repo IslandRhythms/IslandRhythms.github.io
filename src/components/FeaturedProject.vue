@@ -101,19 +101,21 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
     </ul>
 
     <footer class="foot">
-      <a
-        v-for="(link, i) in project.links"
-        :key="link.href"
-        :href="link.href"
-        class="link"
-        :class="{ 'is-primary': i === 0 }"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <AppIcon :name="LINK_ICON[link.kind] || 'external'" :size="14" />
-        {{ link.label }}
-        <AppIcon v-if="i === 0" name="arrow" :size="14" class="go" />
-      </a>
+      <div class="links">
+        <a
+          v-for="(link, i) in project.links"
+          :key="link.href"
+          :href="link.href"
+          class="link"
+          :class="{ 'is-primary': i === 0 }"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <AppIcon :name="LINK_ICON[link.kind] || 'external'" :size="14" />
+          {{ link.label }}
+          <AppIcon v-if="i === 0" name="arrow" :size="14" class="go" />
+        </a>
+      </div>
 
       <button
         type="button"
@@ -144,6 +146,17 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
     transform 0.5s var(--ease-out-expo),
     border-color 0.4s ease,
     box-shadow 0.4s ease;
+}
+
+/* Shares row tracks with the rest of its showcase row, so the chips and footer
+   line up across cards even when one footer wraps and another doesn't. The span
+   has to match the number of in-flow children (eyebrow through footer). */
+@supports (grid-template-rows: subgrid) {
+  .feature {
+    display: grid;
+    grid-row: span 7;
+    grid-template-rows: subgrid;
+  }
 }
 
 .feature:hover {
@@ -313,31 +326,54 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
   color: var(--text-muted);
 }
 
-/* Pushed to the bottom so the chips and footer line up across the row however
-   long each blurb runs. */
+/* A fixed block of three chip rows, filled from the top, so the chips start on
+   the same line in every card whether a project lists four technologies or ten.
+   A chip row is 11px type at 1.5 line height, plus padding and border. */
 .tech {
+  --chip-row: 1.65625rem;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 0.375rem;
   margin-top: auto;
   padding-top: 1.25rem;
+  min-height: calc(1.25rem + 3 * var(--chip-row) + 2 * 0.375rem);
   list-style: none;
 }
 
+/* The subgrid already lines the rows up, so the chip block no longer needs
+   pushing to the bottom of its track. */
+@supports (grid-template-rows: subgrid) {
+  .tech {
+    margin-top: 0;
+  }
+}
+
 /* ── Links ───────────────────────────────────────────────────────────────── */
+/* Two fixed columns: links on the left with room for two lines, the Details
+   toggle pinned to the top right. Neither can push the other onto a new row. */
 .foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1.25rem;
+  --link-line: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 1.25rem;
+  min-height: calc(1rem + 2 * var(--link-line) + 0.5rem);
   padding-top: 1rem;
   border-top: 1px solid var(--line);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
 }
 
 .link {
   display: inline-flex;
   align-items: center;
   gap: 0.4375rem;
+  min-height: var(--link-line);
   font-size: 0.8125rem;
   color: var(--text-muted);
   transition: color 0.25s ease;
@@ -364,13 +400,13 @@ const style = computed(() => ({ '--cat': props.accent || 'var(--accent)' }))
   transform: translateX(4px);
 }
 
-/* Last in the footer and pushed to the far edge, so the primary link keeps the
+/* Last in the footer and on the far edge, so the primary link keeps the
    emphasis and the toggle reads as the quieter of the two. */
 .more {
   display: inline-flex;
   align-items: center;
   gap: 0.3125rem;
-  margin-left: auto;
+  min-height: var(--link-line);
   background: none;
   border: 0;
   padding: 0;

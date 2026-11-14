@@ -55,10 +55,14 @@ function launchLink(project) {
   return links.find((link) => link.kind === 'live' || link.kind === 'store') || links[0]
 }
 
-/** Source and anything else, minus whatever the launch button already shows. */
-function otherLinks(project) {
-  const launch = launchLink(project)
-  return (project.links || []).filter((link) => link !== launch)
+/**
+ * Links for the card footer. Source repos stay off this section, and a launch
+ * card's own link isn't repeated underneath it. The footer renders even when
+ * this comes back empty, so its reserved space keeps the cards level.
+ */
+function footerLinks(project) {
+  const launch = project.embed ? null : launchLink(project)
+  return (project.links || []).filter((link) => link.kind !== 'code' && link !== launch)
 }
 </script>
 
@@ -85,7 +89,9 @@ function otherLinks(project) {
               {{ categoryOf(project).label }}
             </span>
             <span class="year">{{ project.year }}</span>
-            <span v-if="project.embed" class="tag">Playable</span>
+            <span v-if="project.embed" class="tag">
+              {{ project.category === 'games' ? 'Playable' : 'Interactive' }}
+            </span>
             <span v-else class="tag is-link">Live</span>
           </div>
 
@@ -104,8 +110,8 @@ function otherLinks(project) {
               <iframe
                 v-if="project.embed"
                 :src="project.embed"
-                :title="`${project.title}, playable embed`"
-                height="167"
+                :title="`${project.title}, embedded demo`"
+                :height="project.embedHeight || 167"
                 loading="lazy"
                 frameborder="0"
               />
@@ -131,7 +137,7 @@ function otherLinks(project) {
 
           <footer class="foot">
             <a
-              v-for="link in project.embed ? project.links : otherLinks(project)"
+              v-for="link in footerLinks(project)"
               :key="link.href"
               :href="link.href"
               class="link"
@@ -170,6 +176,18 @@ function otherLinks(project) {
   transition:
     transform 0.5s var(--ease-out-expo),
     border-color 0.4s ease;
+}
+
+/* Shares row tracks with the other demo in its row, so the frames start at the
+   same height and the chips and footer line up beneath embeds of different
+   sizes. The span has to match the number of in-flow children (meta through
+   footer). */
+@supports (grid-template-rows: subgrid) {
+  .demo {
+    display: grid;
+    grid-row: span 6;
+    grid-template-rows: subgrid;
+  }
 }
 
 .demo:hover {
@@ -321,19 +339,37 @@ function otherLinks(project) {
 }
 
 /* ── Tail ────────────────────────────────────────────────────────────────── */
+/* A fixed block of three chip rows, filled from the top, so the chips start on
+   the same line in both cards whatever each one lists.
+   A chip row is 11px type at 1.5 line height, plus padding and border. */
 .tech {
+  --chip-row: 1.65625rem;
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 0.375rem;
   margin-top: auto;
   padding-top: 1rem;
+  min-height: calc(1rem + 3 * var(--chip-row) + 2 * 0.375rem);
   list-style: none;
 }
 
+/* The subgrid already lines the rows up, so the chip block no longer needs
+   pushing to the bottom of its track. */
+@supports (grid-template-rows: subgrid) {
+  .tech {
+    margin-top: 0;
+  }
+}
+
+/* Room for two lines of links, so a wrapped footer doesn't throw it off. */
 .foot {
+  --link-line: 1.25rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  align-content: flex-start;
+  gap: 0.5rem 1rem;
+  min-height: calc(1rem + 2 * var(--link-line) + 0.5rem);
   padding-top: 1rem;
   border-top: 1px solid var(--line);
 }
@@ -342,6 +378,7 @@ function otherLinks(project) {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+  min-height: var(--link-line);
   font-size: 0.8125rem;
   color: var(--text-muted);
   transition: color 0.25s ease;

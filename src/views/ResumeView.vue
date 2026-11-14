@@ -1,8 +1,8 @@
 <script setup>
 /**
- * A one-page résumé rendered from the same content files as the landing page,
- * laid out for A4/Letter. `@media print` in main.css strips the chrome, so
- * "Save as PDF" produces a clean document with no extra tooling.
+ * The résumé, rendered from the same content files as the landing page and laid
+ * out for A4/Letter. `@media print` in main.css strips the chrome, so "Save as
+ * PDF" produces a clean document with no extra tooling.
  */
 import { onMounted } from 'vue'
 import { site } from '@/content/site'
@@ -16,9 +16,15 @@ import AppIcon from '@/components/AppIcon.vue'
  * `resume: false` opts a project out — used where the work is already described
  * under a role, so the page doesn't say the same thing twice.
  */
-const highlights = projects
-  .filter((p) => p.resume !== false && (p.featured || p.status === 'live'))
-  .slice(0, 5)
+const highlights = projects.filter((p) => p.resume !== false && (p.featured || p.status === 'live'))
+
+/**
+ * A URL as it reads on paper: no protocol, no www, no trailing slash. Shown in
+ * place of a bare "GitHub" label, which is a dead end once printed.
+ */
+function displayUrl(href) {
+  return href.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+}
 
 onMounted(() => window.scrollTo(0, 0))
 
@@ -54,7 +60,7 @@ function printPage() {
           </li>
           <li v-for="social in site.socials" :key="social.label">
             <a :href="social.href" target="_blank" rel="noopener noreferrer">
-              {{ social.label }}
+              {{ displayUrl(social.href) }}
             </a>
           </li>
         </ul>
@@ -65,16 +71,21 @@ function printPage() {
       <!-- Experience -->
       <section class="block">
         <h2>Experience</h2>
-        <div v-for="role in experience" :key="role.org" class="item">
+        <div v-for="role in experience" :key="role.title" class="item">
           <div class="item-head">
             <h3>
-              {{ role.title }} · <span class="org">{{ role.org }}</span>
+              {{ role.title }} ·
+              <a :href="role.url" class="org" target="_blank" rel="noopener noreferrer">
+                {{ role.org }}
+              </a>
             </h3>
             <span class="period">{{ role.period }}</span>
           </div>
+          <p v-if="role.summary" class="line">{{ role.summary }}</p>
           <ul class="bullets">
             <li v-for="point in role.highlights" :key="point">{{ point }}</li>
           </ul>
+          <p v-if="role.skills" class="stack">{{ role.skills.join(' · ') }}</p>
         </div>
       </section>
 
@@ -84,14 +95,18 @@ function printPage() {
         <div v-for="entry in openSource" :key="entry.org" class="item">
           <div class="item-head">
             <h3>
-              {{ entry.title }} · <span class="org">{{ entry.org }}</span>
+              {{ entry.title }} ·
+              <a :href="entry.url" class="org" target="_blank" rel="noopener noreferrer">
+                {{ entry.org }}
+              </a>
             </h3>
             <span class="period">{{ entry.period }}</span>
           </div>
+          <p v-if="entry.summary" class="line">{{ entry.summary }}</p>
           <ul class="bullets">
             <li v-for="point in entry.highlights" :key="point">{{ point }}</li>
           </ul>
-          <p v-if="entry.links" class="prs">
+          <p v-if="entry.links" class="refs">
             <a
               v-for="link in entry.links"
               :key="link.href"
@@ -107,30 +122,43 @@ function printPage() {
 
       <!-- Projects -->
       <section class="block">
-        <h2>Selected Projects</h2>
-        <div v-for="project in highlights" :key="project.slug" class="item compact">
+        <h2>Projects</h2>
+        <div v-for="project in highlights" :key="project.slug" class="item">
           <div class="item-head">
-            <h3>
-              {{ project.title }}
-              <span class="stack">{{ project.tech.slice(0, 4).join(' · ') }}</span>
-            </h3>
+            <h3>{{ project.title }}</h3>
             <span class="period">{{ project.year }}</span>
           </div>
-          <p class="line">{{ project.blurb }}</p>
+          <p class="stack">{{ project.tech.join(' · ') }}</p>
+          <p class="line">{{ project.description }}</p>
+          <p v-if="project.links.length" class="refs">
+            <a
+              v-for="link in project.links"
+              :key="link.href"
+              :href="link.href"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ link.label }}
+            </a>
+          </p>
         </div>
       </section>
 
       <!-- Education -->
       <section class="block">
         <h2>Education</h2>
-        <div v-for="entry in education" :key="entry.org" class="item compact">
+        <div v-for="entry in education" :key="entry.org" class="item">
           <div class="item-head">
             <h3>
-              {{ entry.title }} · <span class="org">{{ entry.org }}</span>
+              {{ entry.title }} ·
+              <a :href="entry.url" class="org" target="_blank" rel="noopener noreferrer">
+                {{ entry.org }}
+              </a>
             </h3>
             <span class="period">{{ entry.period }}</span>
           </div>
-          <p v-if="entry.skills" class="line">{{ entry.skills.join(' · ') }}</p>
+          <p v-if="entry.summary" class="line">{{ entry.summary }}</p>
+          <p v-if="entry.skills" class="stack">{{ entry.skills.join(' · ') }}</p>
         </div>
       </section>
 
@@ -255,10 +283,6 @@ function printPage() {
   break-inside: avoid;
 }
 
-.item.compact {
-  margin-top: 0.875rem;
-}
-
 .item-head {
   display: flex;
   flex-wrap: wrap;
@@ -276,14 +300,23 @@ function printPage() {
 .org {
   font-weight: 400;
   color: var(--text-muted);
+  transition: color 0.25s ease;
 }
 
+a.org:hover {
+  color: var(--accent);
+}
+
+/* Technologies for an entry, one monospace line of them. */
 .stack {
-  display: block;
+  margin-top: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  font-weight: 400;
+  line-height: 1.6;
   color: var(--text-faint);
+}
+
+.item-head + .stack {
   margin-top: 0.125rem;
 }
 
@@ -319,25 +352,25 @@ function printPage() {
   color: var(--text-muted);
 }
 
-/* Evidence links under an open-source entry. Monospace so a row of PR numbers
-   reads as references rather than prose. */
-.prs {
+/* Links under an entry: PRs, live sites, store pages, source. Monospace so the
+   row reads as references rather than prose. */
+.refs {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 1rem;
   margin-top: 0.5rem;
-  padding-left: 1.125rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
 }
 
-.prs a {
+.refs a {
   color: var(--accent);
 }
 
-/* On paper a bare "PR #11814" is a dead end, so print the URL after it. */
+/* On paper a bare "PR #11814" or "Source" is a dead end, so print the URL
+   after it. */
 @media print {
-  .prs a::after {
+  .refs a::after {
     content: ' ' attr(href);
     color: var(--text-faint);
   }
@@ -386,9 +419,14 @@ function printPage() {
   .summary,
   .bullets li,
   .line,
+  .org,
   .skills dd,
   .contact {
     color: #333 !important;
+  }
+
+  .stack {
+    color: #555 !important;
   }
 }
 </style>

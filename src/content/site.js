@@ -77,7 +77,7 @@ export const site = {
    */
   bio: [
     `I'm a full-stack engineer with ${yearsShipping} years shipping and supporting production web applications in Vue and Nuxt, Node, Express and MongoDB. Most of that time has run alongside open source: building features with the lead maintainer of Mongoose.js for a library downloaded over a million times a week, and working through more than a thousand bug reports against it.`,
-    'Day to day that means the whole stack for client teams — REST APIs and MongoDB schemas, integrations like Stripe, Twilio and Cloudinary, and internal developer tooling that makes debugging someone else’s data less miserable. Outside of it I’ve taken an iOS app through App Store review and keep a Discord bot running on a Raspberry Pi in my apartment, which is a standing reminder that software has to survive without you watching it.',
+    'Day to day that means the whole stack for client teams — REST APIs and MongoDB schemas, integrations like Stripe, Twilio and Cloudinary, and internal developer tooling that makes debugging someone else’s data less miserable. Outside of it I’ve shipped an iOS app to the App Store, built a food-recall tracker on AWS, and keep a Discord bot running on a Raspberry Pi in my apartment, which is a standing reminder that software has to survive without you watching it.',
   ],
 
   /** Headline numbers in the hero. The grid reflows for any count from 2 to 4. */

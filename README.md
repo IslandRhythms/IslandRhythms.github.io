@@ -55,7 +55,7 @@ never need to open a component to update the site.**
 featured: true    // into the Work showcase — ONE per category, extras silently fall
                   // through to the grid below
 demo: true        // out of Work entirely, into the Demos section
-resume: false     // off the résumé's Selected Projects
+resume: false     // off the résumé's Projects section
 embed: 'https://itch.io/embed/637364'   // iframe, renders inside the Demos frame
 status: 'live'    // 'live' | 'archived'. There is no 'ongoing' any more.
 ```
